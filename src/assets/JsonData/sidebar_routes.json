@@ -1,0 +1,42 @@
+[
+  {
+    "display_name": "Dashboard",
+    "route": "/",
+    "icon": "bx bx-category-alt"
+  },
+  {
+    "display_name": "Calorie intake",
+    "route": "/calorie-intake",
+    "icon": "bx bx-receipt"
+  },
+  {
+    "display_name": "Weight tracker",
+    "route": "/weight-tracker",
+    "icon": "bx bx-dumbbell"
+  },
+  {
+    "display_name": "My diets",
+    "route": "/my-diets",
+    "icon": "bx bx-food-menu"
+  },
+  {
+    "display_name": "Saved diets",
+    "route": "/saved-diets",
+    "icon": "bx bx-save"
+  },
+  {
+    "display_name": "Browse diets",
+    "route": "/browse-diets",
+    "icon": "bx bx-search-alt"
+  },
+  {
+    "display_name": "Personal recommendations",
+    "route": "/personal-recommendations",
+    "icon": "bx bx-user-pin"
+  },
+  {
+    "display_name": "Setup Profile",
+    "route": "/setup-profile",
+    "icon": "bx bx-cog"
+  }
+]
