@@ -1,5 +1,5 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import Sidebar from '../components/Sidebar/Sidebar';
+import { Sidebar } from '../components/Sidebar/Sidebar';
 import Topnav from '../components/TopNav/TopNav';
 import Routes from '../Routes';
 

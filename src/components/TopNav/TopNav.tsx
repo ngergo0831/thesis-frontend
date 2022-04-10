@@ -1,7 +1,5 @@
 import './topnav.css';
 
-import { Link } from 'react-router-dom';
-
 const Topnav = () => {
   return (
     <div className="topnav">

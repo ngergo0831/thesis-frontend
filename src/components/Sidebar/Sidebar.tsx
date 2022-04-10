@@ -20,7 +20,7 @@ const SidebarItem = (props) => {
   );
 };
 
-const Sidebar = (props) => {
+export const Sidebar = (props) => {
   const activeItem = sidebar_items.findIndex((item) => item.route === props.location?.pathname);
 
   return (
@@ -38,5 +38,3 @@ const Sidebar = (props) => {
     </div>
   );
 };
-
-export default Sidebar;

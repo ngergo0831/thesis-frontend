@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import WeightTracker from './pages/WeightTracker';
+import { WeightTracker } from './pages/WeightTracker';
 import CalorieIntake from './pages/CalorieIntake';
 import Dashboard from './pages/Dashboard';
 import MyDiets from './pages/MyDiets';
