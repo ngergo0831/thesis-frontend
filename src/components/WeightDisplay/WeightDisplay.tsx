@@ -1,5 +1,5 @@
 import { BoxContainer } from '../../GlobalStyles';
-import { Weight, WeightText } from './WeightDisplayAtoms';
+import * as S from './WeightDisplayAtoms';
 
 interface WeightDisplayProps {
   weight: number;
@@ -8,8 +8,8 @@ interface WeightDisplayProps {
 export const WeightDisplay = ({ weight }: WeightDisplayProps) => {
   return (
     <BoxContainer>
-      <Weight>{weight} kg</Weight>
-      <WeightText>Current weight</WeightText>
+      <S.Weight>{weight} kg</S.Weight>
+      <S.WeightText>Current weight</S.WeightText>
     </BoxContainer>
   );
 };

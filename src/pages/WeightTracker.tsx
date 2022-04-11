@@ -2,6 +2,7 @@ import { Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getMeasurementsByUserId } from '../api/api';
 import { WeightDisplay } from '../components/WeightDisplay/WeightDisplay';
+import { WeightInput } from '../components/WeightInput/WeightInput';
 
 export const WeightTracker = () => {
   const [measurements, setMeasurements] = useState([]);
@@ -14,7 +15,10 @@ export const WeightTracker = () => {
 
   return (
     <Container maxWidth={'md'}>
-      <WeightDisplay weight={(measurements[0]?.weight as number) ?? 0} />
+      <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+        <WeightDisplay weight={(measurements[0]?.weight as number) ?? 0} />
+        <WeightInput userId={userId} />
+      </div>
     </Container>
   );
 };

@@ -11,4 +11,5 @@ export const BoxContainer = styled.div`
     0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   padding: 1rem;
   width: fit-content;
+  margin: 0.5rem 1.5rem;
 `;
