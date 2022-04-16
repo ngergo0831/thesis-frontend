@@ -72,7 +72,7 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
 
   return (
     <BoxContainer>
-      <div style={{ fontSize: '0.825rem' }}>Last 7 measurements</div>
+      <div style={{ fontSize: '0.825rem' }}>Last 7 measurements (descending order)</div>
       <div style={{ width: '100%' }}>
         <Line data={lineData} options={options} />
       </div>
