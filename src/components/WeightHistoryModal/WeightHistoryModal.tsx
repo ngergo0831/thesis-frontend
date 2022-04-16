@@ -21,6 +21,7 @@ const style = {
 interface WeightHistoryModalProps {
   selectedMeasurement: Measurement;
   open: boolean;
+  weight: number;
   onClose: () => void;
   handleCancel: () => void;
   handleSave: () => void;
@@ -33,6 +34,7 @@ export const WeightHistoryModal = ({
   selectedMeasurement,
   handleCancel,
   handleSave,
+  weight,
   setWeight
 }: WeightHistoryModalProps) => {
   return (
@@ -82,6 +84,9 @@ export const WeightHistoryModal = ({
             endIcon={<AddCircleOutlineIcon />}
             onClick={handleSave}
             style={{ marginLeft: 'auto' }}
+            disabled={
+              !weight || weight > 200 || weight < 40 || weight === selectedMeasurement.weight
+            }
           >
             Save
           </Button>

@@ -94,7 +94,7 @@ export const WeightHistoryTable = ({ measurements }: WeightHistoryTableProps) =>
           Measurement history
         </Typography>
       </Toolbar>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 326 }}>
         <Table stickyHeader aria-label="Measurements">
           <TableHead>
             <TableRow>
@@ -157,6 +157,7 @@ export const WeightHistoryTable = ({ measurements }: WeightHistoryTableProps) =>
           selectedMeasurement={selectedMeasurement}
           handleCancel={handleCancel}
           handleSave={handleSave}
+          weight={weight}
           setWeight={setWeight}
         />
       )}

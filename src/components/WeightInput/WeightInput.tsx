@@ -2,16 +2,15 @@ import { Button, FormControl, Input, InputAdornment, Stack } from '@mui/material
 import { BoxContainer } from '../../GlobalStyles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import * as S from './WeightInputAtoms';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { addMeasurement } from '../../api/api';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { measurementsState } from '../../store/atoms/weightAtoms';
 
 export const WeightInput = ({ userId }: { userId: string }) => {
   const [weight, setWeight] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const setMeasurements = useSetRecoilState(measurementsState);
-  const measurements = useRecoilValue(measurementsState);
 
   const handleSend = async (event) => {
     event.preventDefault();
@@ -19,14 +18,10 @@ export const WeightInput = ({ userId }: { userId: string }) => {
     setMeasurements((oldMeasurements) => [newMeasurement, ...oldMeasurements]);
   };
 
-  useEffect(() => {
-    console.log('measurements', measurements);
-  }, [measurements]);
-
   return (
     <BoxContainer>
       <S.WeightInputText>Add measurement</S.WeightInputText>
-      <FormControl variant="standard" sx={{ m: 1, mt: 3, width: '25ch' }}>
+      <FormControl variant="standard" sx={{ m: 1, mt: 3, mb: 2, width: '25ch' }}>
         <Stack direction="row" spacing={3}>
           <Input
             type="number"
@@ -52,6 +47,7 @@ export const WeightInput = ({ userId }: { userId: string }) => {
               padding: '0.5rem 2rem'
             }}
             onClick={handleSend}
+            disabled={!weight || weight > 200 || weight < 40}
           >
             Add
           </Button>

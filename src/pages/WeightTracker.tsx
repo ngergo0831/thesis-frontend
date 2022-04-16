@@ -8,9 +8,12 @@ import { WeightHistoryTable } from '../components/WeightHistoryTable/WeightHisto
 import moment from 'moment';
 import { useRecoilState } from 'recoil';
 import { measurementsState } from '../store/atoms/weightAtoms';
+import { WeightTrackerContainer } from '../components/WeightTrackerContainer/WeightTrackerContainerAtoms';
+import { useDevice } from '../utils/useDevice';
 
 export const WeightTracker = () => {
   const [measurements, setMeasurements] = useRecoilState(measurementsState);
+  const { isDESKTOP } = useDevice();
 
   const userId = '717996ac-3a0b-4611-a7e7-303656c15819';
 
@@ -19,34 +22,42 @@ export const WeightTracker = () => {
   }, []);
 
   return (
-    <Container maxWidth={'md'}>
-      <div
-        style={{
+    <>
+      <h2 className="page-header">Weight tracker</h2>
+      <Container
+        maxWidth={'md'}
+        sx={{
           display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          width: 'fit-content',
-          margin: '0 auto'
+          flexDirection: isDESKTOP ? 'row' : 'column',
+          justifyContent: 'center'
         }}
       >
-        <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-          <WeightDisplay weight={(measurements[0]?.weight as number) ?? 0} />
-          <WeightInput userId={userId} />
-        </div>
-        {measurements.length && (
+        <WeightTrackerContainer>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-            <WeightChart
-              data={measurements.map((measurement) => measurement.weight).slice(0, 7)}
-              labels={measurements
-                .map((measurement) => moment(measurement.createdAt).format('M/D'))
-                .slice(0, 7)}
-            />
+            <WeightDisplay weight={(measurements[0]?.weight as number) ?? 0} />
+            <WeightInput userId={userId} />
           </div>
-        )}
-        <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+          {measurements.length && (
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'center'
+              }}
+            >
+              <WeightChart
+                data={measurements.map((measurement) => measurement.weight).slice(0, 7)}
+                labels={measurements
+                  .map((measurement) => moment(measurement.createdAt).format('M/D'))
+                  .slice(0, 7)}
+              />
+            </div>
+          )}
+        </WeightTrackerContainer>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <WeightHistoryTable measurements={measurements} />
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };

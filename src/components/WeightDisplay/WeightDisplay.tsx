@@ -9,7 +9,7 @@ export const WeightDisplay = ({ weight }: WeightDisplayProps) => {
   return (
     <BoxContainer>
       <S.Weight>{weight} kg</S.Weight>
-      <S.WeightText>Current weight</S.WeightText>
+      <S.WeightText>Current&nbsp;weight</S.WeightText>
     </BoxContainer>
   );
 };

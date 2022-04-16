@@ -32,6 +32,7 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
 
   const options = {
     maintainAspectRatio: false,
+    responsive: true,
     plugins: {
       legend: {
         display: false
@@ -71,9 +72,11 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
   };
 
   return (
-    <BoxContainer>
-      <div style={{ fontSize: '0.825rem' }}>Last 7 measurements (descending order)</div>
-      <div style={{ width: '100%' }}>
+    <BoxContainer fullwidth={false}>
+      <div style={{ fontSize: '0.825rem', margin: '1rem 0' }}>
+        Last 7 measurements (descending order)
+      </div>
+      <div style={{ width: '100%', height: '14rem' }}>
         <Line data={lineData} options={options} />
       </div>
     </BoxContainer>
