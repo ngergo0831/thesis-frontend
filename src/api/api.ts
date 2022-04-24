@@ -19,3 +19,9 @@ export const modifyMeasurement = async (measurement: Measurement) => {
   const { data } = await api.patch(`/measurements/${measurement.id}`, { ...measurement });
   return data;
 };
+
+export const getDietsByUserId = async (userId: string): Promise<any> => {
+  const { data } = await api.get(`/diets/user/${userId}`);
+  console.log(data);
+  return data;
+};
