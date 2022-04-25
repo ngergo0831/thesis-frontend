@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import moment from 'moment';
 import { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
@@ -6,7 +6,9 @@ import { useRecoilValue } from 'recoil';
 import { BoxContainer } from '../../GlobalStyles';
 import { getDietById, getUserByIdQuery } from '../../store/atoms/dietAtoms';
 import { Intake } from '../../types/types';
+import { Comment } from '../Comment/Comment';
 import { DoughnutChart } from '../DoughnutChart/DoughnutChart';
+import SaveIcon from '@mui/icons-material/Save';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
@@ -26,7 +28,13 @@ export const DietDetails = () => {
             (diet.likedBy.length ?? 0) > 1 ? 'likes' : 'like'
           })`}</div>
         </h2>
-        <h2>Save</h2>
+        <Button
+          sx={{ height: 'fit-content', borderRadius: '10px' }}
+          variant="text"
+          startIcon={<SaveIcon />}
+        >
+          Save
+        </Button>
       </div>
       <div
         className="page-header"
@@ -42,7 +50,28 @@ export const DietDetails = () => {
             <DoughnutChart data={diet.intake as Intake} />
           </div>
         </BoxContainer>
-        <BoxContainer style={{ justifyContent: 'center' }}>Comments</BoxContainer>
+        <BoxContainer style={{ justifyContent: 'flex-start' }}>
+          <h3>Comments</h3>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+              minWidth: '500px',
+              maxHeight: '450px',
+              overflowY: 'scroll'
+            }}
+          >
+            {diet.comments.length ? (
+              diet.comments.map((comment) => {
+                return <Comment key={comment.id} comment={comment} />;
+              })
+            ) : (
+              <div style={{ margin: '1rem' }}>No comments yet</div>
+            )}
+          </div>
+        </BoxContainer>
       </div>
     </>
   );

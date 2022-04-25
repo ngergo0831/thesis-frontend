@@ -17,6 +17,7 @@ export type Intake = {
 export type Comment = {
   comment: string;
   userId: string;
+  createdAt: Date;
 };
 
 export type Diet = {
