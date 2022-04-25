@@ -34,3 +34,8 @@ export const getUserById = async (userId: string): Promise<any> => {
   const { data } = await api.get(`/users/${userId}`);
   return data;
 };
+
+export const createComment = async (userId: string, dietId: string, comment: string) => {
+  const { data } = await api.post('/comments', { userId, comment, dietId });
+  return data;
+};

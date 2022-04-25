@@ -18,6 +18,7 @@ export type Comment = {
   comment: string;
   userId: string;
   createdAt: Date;
+  id: string;
 };
 
 export type Diet = {

@@ -1,20 +1,36 @@
 import { Button, CircularProgress } from '@mui/material';
 import moment from 'moment';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { BoxContainer } from '../../GlobalStyles';
 import { getDietById, getUserByIdQuery } from '../../store/atoms/dietAtoms';
-import { Intake } from '../../types/types';
+import { Intake, Comment as CommentType } from '../../types/types';
 import { Comment } from '../Comment/Comment';
 import { DoughnutChart } from '../DoughnutChart/DoughnutChart';
 import SaveIcon from '@mui/icons-material/Save';
+import { CommentForm } from '../CommentForm/CommentForm';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
   const diet = useRecoilValue(getDietById(dietId));
   const user = useRecoilValue(getUserByIdQuery(diet.creatorId));
+
+  const [comments, setComments] = useState<CommentType[]>([]);
+
   const userName = user.email.substring(0, user.email.lastIndexOf('@'));
+
+  useEffect(() => {
+    if (!diet.comments.length) {
+      return;
+    }
+
+    setComments(
+      diet.comments
+        .map((comment) => comment)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    );
+  }, []);
 
   return (
     <>
@@ -63,8 +79,8 @@ export const DietDetails = () => {
               overflowY: 'scroll'
             }}
           >
-            {diet.comments.length ? (
-              diet.comments.map((comment) => {
+            {comments ? (
+              comments.map((comment) => {
                 return <Comment key={comment.id} comment={comment} />;
               })
             ) : (
@@ -72,6 +88,10 @@ export const DietDetails = () => {
             )}
           </div>
         </BoxContainer>
+      </div>
+      <div>
+        <h3 style={{ marginBottom: '1rem' }}>Add comment</h3>
+        <CommentForm dietId={dietId} setComments={setComments} />
       </div>
     </>
   );
