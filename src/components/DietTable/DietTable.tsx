@@ -1,4 +1,3 @@
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,14 +10,13 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Period } from '../../enums/enums';
 import { Comment } from '../../types/types';
-import { myDietsState } from '../../store/atoms/dietAtoms';
-import { useRecoilState } from 'recoil';
-import { getDietsByUserId } from '../../api/api';
+import { getDietsByUserId } from '../../store/atoms/dietAtoms';
+import { useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 interface Data {
@@ -190,19 +188,15 @@ export const DietTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [myDiets, setMyDiets] = useRecoilState(myDietsState);
+  const myDiets = useRecoilValue(getDietsByUserId(userId));
 
-  useEffect(() => {
-    getDietsByUserId(userId).then(setMyDiets);
-  }, []);
-
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+  const handleRequestSort = (_event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event, newPage: number) => {
     setPage(newPage);
   };
 
@@ -248,7 +242,13 @@ export const DietTable = () => {
                     <TableCell align="left">{row.intake.protein}</TableCell>
                     <TableCell align="left">{row.likedBy.length}</TableCell>
                     <TableCell align="left">{row.comments.length}</TableCell>
-                    <TableCell align="left">View</TableCell>
+                    <TableCell align="left">
+                      <Link to={`/diets/${row.id}`} key={index * Math.random()}>
+                        <Typography variant="inherit" color="#349eff">
+                          View
+                        </Typography>
+                      </Link>
+                    </TableCell>
                   </TableRow>
                 );
               })}

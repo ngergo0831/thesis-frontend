@@ -8,6 +8,7 @@ import BrowseDiets from './pages/BrowseDiets';
 import PersonalRecommendations from './pages/PersonalRecommendations';
 import MyProfile from './pages/MyProfile';
 import SetupProfile from './pages/SetupProfile';
+import { DietDetailsPage } from './components/DietDetails/DietDetails';
 
 const Routes = () => {
   return (
@@ -15,6 +16,7 @@ const Routes = () => {
       <Route exact path="/" component={Dashboard} />
       <Route path="/calorie-intake" component={CalorieIntake} />
       <Route path="/weight-tracker" component={WeightTracker} />
+      <Route path="/diets/:dietId" component={DietDetailsPage} />
       <Route path="/my-diets" component={MyDiets} />
       <Route path="/saved-diets" component={SavedDiets} />
       <Route path="/browse-diets" component={BrowseDiets} />

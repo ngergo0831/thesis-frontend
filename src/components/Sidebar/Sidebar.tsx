@@ -1,11 +1,8 @@
-import React from 'react';
-
 import { Link } from 'react-router-dom';
-
-import './sidebar.css';
-
 import sidebar_items from '../../assets/JsonData/sidebar_routes.json';
 import logo from '../../assets/images/logo.png';
+
+import './sidebar.css';
 
 const SidebarItem = (props) => {
   const active = props.active ? 'active' : '';

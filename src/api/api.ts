@@ -22,6 +22,15 @@ export const modifyMeasurement = async (measurement: Measurement) => {
 
 export const getDietsByUserId = async (userId: string): Promise<any> => {
   const { data } = await api.get(`/diets/user/${userId}`);
-  console.log(data);
+  return data;
+};
+
+export const getDiets = async (): Promise<any> => {
+  const { data } = await api.get('/diets');
+  return data;
+};
+
+export const getUserById = async (userId: string): Promise<any> => {
+  const { data } = await api.get(`/users/${userId}`);
   return data;
 };
