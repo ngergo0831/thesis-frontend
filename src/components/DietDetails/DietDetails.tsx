@@ -2,21 +2,27 @@ import { Button, CircularProgress } from '@mui/material';
 import moment from 'moment';
 import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 import { BoxContainer } from '../../GlobalStyles';
 import { getDietById, getUserByIdQuery } from '../../store/atoms/dietAtoms';
 import { Intake, Comment as CommentType } from '../../types/types';
 import { Comment } from '../Comment/Comment';
 import { DoughnutChart } from '../DoughnutChart/DoughnutChart';
-import SaveIcon from '@mui/icons-material/Save';
 import { CommentForm } from '../CommentForm/CommentForm';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import GradeIcon from '@mui/icons-material/Grade';
+import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
+import { likeDiet } from '../../api/api';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
   const diet = useRecoilValue(getDietById(dietId));
   const user = useRecoilValue(getUserByIdQuery(diet.creatorId));
 
+  const [alreadyLiked, setAlreadyLiked] = useState(false);
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [likes, setLikes] = useState(diet.likedBy?.length ?? 0);
 
   const userName = user.email.substring(0, user.email.lastIndexOf('@'));
 
@@ -32,6 +38,24 @@ export const DietDetails = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (!diet.likedBy.length) {
+      return;
+    }
+
+    setAlreadyLiked(diet.likedBy.some(({ id }) => id == user.id));
+  }, []);
+
+  const handleLike = async () => {
+    await likeDiet(user.id, dietId);
+
+    setLikes((prev) => (alreadyLiked ? prev - 1 : prev + 1));
+
+    setAlreadyLiked((prev) => !prev);
+  };
+
+  const likeButton = alreadyLiked ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />;
+
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -40,17 +64,27 @@ export const DietDetails = () => {
           style={{ textTransform: 'none', display: 'flex', alignItems: 'center' }}
         >
           <div>{`${userName}'s Diet`}</div>
-          <div style={{ fontSize: '1rem', marginLeft: '1rem' }}>{`(${diet.likedBy.length ?? 0} ${
-            (diet.likedBy.length ?? 0) > 1 ? 'likes' : 'like'
+          <div style={{ fontSize: '1rem', marginLeft: '1rem' }}>{`(${likes} ${
+            likes > 1 ? 'likes' : 'like'
           })`}</div>
         </h2>
-        <Button
-          sx={{ height: 'fit-content', borderRadius: '10px' }}
-          variant="text"
-          startIcon={<SaveIcon />}
-        >
-          Save
-        </Button>
+        <div style={{ display: 'flex' }}>
+          <Button
+            sx={{ height: 'fit-content', borderRadius: '10px' }}
+            variant="text"
+            startIcon={likeButton}
+            onClick={handleLike}
+          >
+            Like
+          </Button>
+          <Button
+            sx={{ height: 'fit-content', borderRadius: '10px' }}
+            variant="text"
+            startIcon={<GradeIcon />}
+          >
+            Save
+          </Button>
+        </div>
       </div>
       <div
         className="page-header"
@@ -79,7 +113,7 @@ export const DietDetails = () => {
               overflowY: 'scroll'
             }}
           >
-            {comments ? (
+            {comments.length ? (
               comments.map((comment) => {
                 return <Comment key={comment.id} comment={comment} />;
               })
