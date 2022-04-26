@@ -131,7 +131,7 @@ export const DietDetails = () => {
           className="page-header"
           style={{ textTransform: 'none', display: 'flex', alignItems: 'center' }}
         >
-          <div>{`${userName}'s Diet`}</div>
+          <div>{currentUser.id === diet.creatorId ? 'My Diet' : `${userName}'s Diet`}</div>
           <div style={{ fontSize: '1rem', marginLeft: '1rem' }}>{`(${diet.likedBy.length} ${
             diet.likedBy.length > 1 ? 'likes' : 'like'
           })`}</div>

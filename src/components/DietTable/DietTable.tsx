@@ -163,7 +163,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-const EnhancedTableToolbar = () => {
+interface EnhancedTableToolbarProps {
+  toolbarText: string;
+}
+
+const EnhancedTableToolbar = ({ toolbarText }: EnhancedTableToolbarProps) => {
   return (
     <Toolbar
       sx={{
@@ -172,7 +176,7 @@ const EnhancedTableToolbar = () => {
       }}
     >
       <Typography sx={{ flex: '1 1 100%' }} variant="h6" id="tableTitle" component="div">
-        Diet List
+        {toolbarText}
       </Typography>
     </Toolbar>
   );
@@ -180,13 +184,14 @@ const EnhancedTableToolbar = () => {
 
 interface DietTableProps {
   diets: Diet[];
+  toolbarText?: string;
 }
 
-export const DietTable = ({ diets }: DietTableProps) => {
+export const DietTable = ({ diets, toolbarText = 'Diet List' }: DietTableProps) => {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>('createdAt');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (_event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -216,7 +221,7 @@ export const DietTable = ({ diets }: DietTableProps) => {
         border: '1px solid #e0e0e0'
       }}
     >
-      <EnhancedTableToolbar />
+      <EnhancedTableToolbar toolbarText={toolbarText} />
       <TableContainer>
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
           <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />

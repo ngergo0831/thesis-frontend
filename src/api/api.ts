@@ -57,3 +57,8 @@ export const getSavedDietsByUserId = async (userId: string): Promise<Diet[]> => 
   const { data } = await api.get(`/users/${userId}/saved-diets`);
   return data;
 };
+
+export const getUsers = async (): Promise<User[]> => {
+  const { data } = await api.get('/users');
+  return data;
+};
