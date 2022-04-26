@@ -52,3 +52,8 @@ export const likeDiet = async (userId: string, dietId: string) => {
 export const saveDiet = async (userId: string, dietId: string) => {
   await api.post(`/diets/${dietId}/save`, { userId });
 };
+
+export const getSavedDietsByUserId = async (userId: string): Promise<Diet[]> => {
+  const { data } = await api.get(`/users/${userId}/saved-diets`);
+  return data;
+};

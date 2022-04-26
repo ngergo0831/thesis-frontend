@@ -17,13 +17,13 @@ import {
   currentDietState,
   currentDietUserQuery,
   currentUserState,
-  myDietsState
+  dietsState
 } from '../../store/atoms/dietAtoms';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
   const diet = useRecoilValue(currentDietState(dietId));
-  const setMyDietsState = useSetRecoilState(myDietsState);
+  const setDietsState = useSetRecoilState(dietsState);
   const creator = useRecoilValue(currentDietUserQuery(diet?.creatorId));
   const currentUser = useRecoilValue(currentUserState);
 
@@ -53,11 +53,11 @@ export const DietDetails = () => {
     if (diet?.savedBy.some((user) => user.id === currentUser.id)) {
       setAlreadySaved(true);
     }
-  }, [currentUser, diet]);
+  }, [currentUser]);
 
   const handleComments = (comment: CommentType) => {
     setComments((prev) => [comment, ...prev]);
-    setMyDietsState((myDiets) => {
+    setDietsState((myDiets) => {
       return [...myDiets].map((_diet) => {
         if (_diet.id === dietId) {
           return { ..._diet, comments: [comment, ...comments] };
@@ -71,7 +71,7 @@ export const DietDetails = () => {
     await likeDiet(currentUser.id, dietId);
 
     if (alreadyLiked) {
-      setMyDietsState((myDiets) => {
+      setDietsState((myDiets) => {
         return [...myDiets].map((_diet) => {
           if (_diet.id === dietId) {
             const updatedLikedBy = _diet.likedBy.filter(({ id }) => id !== currentUser.id);
@@ -81,7 +81,7 @@ export const DietDetails = () => {
         });
       });
     } else {
-      setMyDietsState((myDiets) => {
+      setDietsState((myDiets) => {
         return [...myDiets].map((_diet) => {
           if (_diet.id === dietId) {
             return { ..._diet, likedBy: [..._diet.likedBy, currentUser] };
@@ -98,7 +98,7 @@ export const DietDetails = () => {
     await saveDiet(currentUser.id, dietId);
 
     if (alreadySaved) {
-      setMyDietsState((myDiets) => {
+      setDietsState((myDiets) => {
         return [...myDiets].map((_diet) => {
           if (_diet.id === dietId) {
             const updatedSavedBy = _diet.savedBy.filter(({ id }) => id !== currentUser.id);
@@ -108,7 +108,7 @@ export const DietDetails = () => {
         });
       });
     } else {
-      setMyDietsState((myDiets) => {
+      setDietsState((myDiets) => {
         return [...myDiets].map((_diet) => {
           if (_diet.id === dietId) {
             return { ..._diet, savedBy: [..._diet.savedBy, currentUser] };

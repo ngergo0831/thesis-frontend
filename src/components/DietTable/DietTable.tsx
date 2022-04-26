@@ -11,14 +11,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Period } from '../../enums/enums';
-import { Comment } from '../../types/types';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Comment, Diet } from '../../types/types';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { getDietsByUserId } from '../../api/api';
-import { currentUserIdState, myDietsState } from '../../store/atoms/dietAtoms';
 
 interface Data {
   calorie: number;
@@ -181,18 +178,15 @@ const EnhancedTableToolbar = () => {
   );
 };
 
-export const DietTable = () => {
+interface DietTableProps {
+  diets: Diet[];
+}
+
+export const DietTable = ({ diets }: DietTableProps) => {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>('createdAt');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [myDiets, setMyDiets] = useRecoilState(myDietsState);
-  const userId = useRecoilValue(currentUserIdState);
-
-  useEffect(() => {
-    getDietsByUserId(userId).then(setMyDiets);
-  }, [userId]);
 
   const handleRequestSort = (_event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -209,8 +203,8 @@ export const DietTable = () => {
     setPage(0);
   };
 
-  // Avoid a layout jump when reaching the last page with empty myDiets.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - myDiets.length) : 0;
+  // Avoid a layout jump when reaching the last page with empty diets.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - diets.length) : 0;
 
   return (
     <Paper
@@ -227,7 +221,7 @@ export const DietTable = () => {
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
           <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
           <TableBody>
-            {myDiets
+            {diets
               .slice()
               .sort(getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -271,7 +265,7 @@ export const DietTable = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
         component="div"
-        count={myDiets.length}
+        count={diets.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

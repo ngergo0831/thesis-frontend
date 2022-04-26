@@ -2,27 +2,47 @@ import { atom, selector, selectorFamily } from 'recoil';
 import { getUserById } from '../../api/api';
 import { Diet, User } from '../../types/types';
 
-export const myDietsState = atom({
+export const dietsState = atom<Diet[]>({
+  key: 'dietsState',
+  default: []
+});
+
+export const myDietsState = selectorFamily({
   key: 'myDietsState',
-  default: [] as Diet[]
+  get:
+    (userId: string) =>
+    ({ get }): Diet[] => {
+      const diets = get(dietsState);
+      return diets.filter(({ creatorId }) => creatorId === userId);
+    }
 });
 
-export const savedDietsState = atom({
+export const savedDietsState = selectorFamily({
   key: 'savedDietsState',
-  default: [] as Diet[]
+  get:
+    (userId: string) =>
+    ({ get }): Diet[] => {
+      const diets = get(dietsState);
+      return diets.filter(({ savedBy }) => savedBy.some(({ id }) => id === userId));
+    }
 });
 
-export const othersDietsState = atom({
+export const othersDietsState = selectorFamily({
   key: 'othersDietsState',
-  default: [] as Diet[]
+  get:
+    (userId: string) =>
+    ({ get }): Diet[] => {
+      const diets = get(dietsState);
+      return diets.filter(({ creatorId }) => creatorId !== userId);
+    }
 });
 
 export const currentDietState = selectorFamily({
   key: 'currentDietState',
   get:
     (id) =>
-    async ({ get }): Promise<Diet> => {
-      const diets = get(myDietsState);
+    ({ get }): Diet => {
+      const diets = get(dietsState);
       return diets.find((diet) => diet.id === id);
     }
 });
