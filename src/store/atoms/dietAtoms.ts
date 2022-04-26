@@ -1,5 +1,10 @@
-import { selector, selectorFamily } from 'recoil';
+import { atom, selector, selectorFamily } from 'recoil';
 import { getDiets, getUserById } from '../../api/api';
+
+export const dietsState = atom({
+  key: 'dietState',
+  default: []
+});
 
 export const getDietsQuery = selector({
   key: 'getDietsQuery',

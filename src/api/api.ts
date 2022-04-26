@@ -43,3 +43,7 @@ export const createComment = async (userId: string, dietId: string, comment: str
 export const likeDiet = async (userId: string, dietId: string) => {
   await api.post(`/diets/${dietId}/like`, { userId });
 };
+
+export const saveDiet = async (userId: string, dietId: string) => {
+  await api.post(`/diets/${dietId}/save`, { userId });
+};
