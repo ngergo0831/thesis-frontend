@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { useRecoilValue } from 'recoil';
-import { getUserByIdQuery } from '../../store/atoms/dietAtoms';
+import { currentDietUserQuery } from '../../store/atoms/dietAtoms';
 import { Comment as _Comment } from '../../types/types';
 import { Avatar } from '../Avatar/Avatar';
 
@@ -9,7 +9,7 @@ interface CommentProps {
 }
 
 export const Comment = ({ comment }: CommentProps) => {
-  const user = useRecoilValue(getUserByIdQuery(comment.userId));
+  const user = useRecoilValue(currentDietUserQuery(comment.userId));
   const userName = user.firstName + ' ' + user.lastName;
 
   return (

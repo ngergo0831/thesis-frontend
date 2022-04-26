@@ -2,23 +2,23 @@ import { Button, TextareaAutosize } from '@mui/material';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { createComment } from '../../api/api';
-import { getUserByIdQuery } from '../../store/atoms/dietAtoms';
+import { currentUserState } from '../../store/atoms/dietAtoms';
+import { Comment } from '../../types/types';
 import { Avatar } from '../Avatar/Avatar';
 
 interface CommentFormProps {
   dietId: string;
-  setComments: (e) => void;
+  setComments: (comment: Comment) => void;
 }
 
 export const CommentForm = ({ dietId, setComments }: CommentFormProps) => {
   const [comment, setComment] = useState('');
-  const userId = '8ecaeef8-5cec-479f-83c7-0b3a884df8c0';
-  const user = useRecoilValue(getUserByIdQuery(userId));
+  const user = useRecoilValue(currentUserState);
   const userName = user.firstName + ' ' + user.lastName;
 
   const handleCreateComment = async () => {
-    const newComment = await createComment(userId, dietId, comment);
-    setComments((prev) => [newComment, ...prev]);
+    const newComment = await createComment(user.id, dietId, comment);
+    setComments(newComment);
     setComment('');
   };
 

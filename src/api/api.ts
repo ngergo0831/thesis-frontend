@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Measurement } from '../types/types';
+import { Diet, Measurement, User } from '../types/types';
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000'
@@ -20,17 +20,22 @@ export const modifyMeasurement = async (measurement: Measurement) => {
   return data;
 };
 
-export const getDietsByUserId = async (userId: string): Promise<any> => {
+export const getDietsByUserId = async (userId: string): Promise<Diet[]> => {
   const { data } = await api.get(`/diets/user/${userId}`);
   return data;
 };
 
-export const getDiets = async (): Promise<any> => {
+export const getDietById = async (dietId: string): Promise<Diet> => {
+  const { data } = await api.get(`/diets/${dietId}`);
+  return data;
+};
+
+export const getDiets = async (): Promise<Diet[]> => {
   const { data } = await api.get('/diets');
   return data;
 };
 
-export const getUserById = async (userId: string): Promise<any> => {
+export const getUserById = async (userId: string): Promise<User> => {
   const { data } = await api.get(`/users/${userId}`);
   return data;
 };

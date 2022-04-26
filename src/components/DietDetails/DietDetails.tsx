@@ -2,9 +2,8 @@ import { Button, CircularProgress } from '@mui/material';
 import moment from 'moment';
 import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BoxContainer } from '../../GlobalStyles';
-import { getDietById, getUserByIdQuery } from '../../store/atoms/dietAtoms';
 import { Intake, Comment as CommentType } from '../../types/types';
 import { Comment } from '../Comment/Comment';
 import { DoughnutChart } from '../DoughnutChart/DoughnutChart';
@@ -14,57 +13,110 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import GradeIcon from '@mui/icons-material/Grade';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import { likeDiet, saveDiet } from '../../api/api';
+import {
+  currentDietState,
+  currentDietUserQuery,
+  currentUserState,
+  myDietsState
+} from '../../store/atoms/dietAtoms';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
-  const diet = useRecoilValue(getDietById(dietId));
-  const user = useRecoilValue(getUserByIdQuery(diet.creatorId));
+  const diet = useRecoilValue(currentDietState(dietId));
+  const setMyDietsState = useSetRecoilState(myDietsState);
+  const creator = useRecoilValue(currentDietUserQuery(diet?.creatorId));
+  const currentUser = useRecoilValue(currentUserState);
 
   const [alreadyLiked, setAlreadyLiked] = useState(false);
   const [alreadySaved, setAlreadySaved] = useState(false);
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [likes, setLikes] = useState(diet.likedBy?.length ?? 0);
 
-  const userName = user.email.substring(0, user.email.lastIndexOf('@'));
+  const userName = creator?.email.substring(0, creator?.email.lastIndexOf('@'));
 
   useEffect(() => {
-    if (!diet.comments.length) {
+    if (!diet?.comments.length) {
       return;
     }
 
-    setComments(
-      diet.comments
-        .map((comment) => comment)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    );
-  }, []);
+    setComments(diet.comments);
+  }, [diet]);
 
   useEffect(() => {
-    if (!diet.likedBy.length) {
+    if (!currentUser) {
       return;
     }
 
-    setAlreadyLiked(diet.likedBy.some(({ id }) => id == user.id));
-  }, []);
-
-  useEffect(() => {
-    if (!diet.savedBy.length) {
-      return;
+    if (diet?.likedBy.some((user) => user.id === currentUser.id)) {
+      setAlreadyLiked(true);
     }
 
-    setAlreadySaved(diet.savedBy.some(({ id }) => id == user.id));
-  }, []);
+    if (diet?.savedBy.some((user) => user.id === currentUser.id)) {
+      setAlreadySaved(true);
+    }
+  }, [currentUser, diet]);
+
+  const handleComments = (comment: CommentType) => {
+    setComments((prev) => [comment, ...prev]);
+    setMyDietsState((myDiets) => {
+      return [...myDiets].map((_diet) => {
+        if (_diet.id === dietId) {
+          return { ..._diet, comments: [comment, ...comments] };
+        }
+        return _diet;
+      });
+    });
+  };
 
   const handleLike = async () => {
-    await likeDiet(user.id, dietId);
+    await likeDiet(currentUser.id, dietId);
 
-    setLikes((prev) => (alreadyLiked ? prev - 1 : prev + 1));
+    if (alreadyLiked) {
+      setMyDietsState((myDiets) => {
+        return [...myDiets].map((_diet) => {
+          if (_diet.id === dietId) {
+            const updatedLikedBy = _diet.likedBy.filter(({ id }) => id !== currentUser.id);
+            return { ..._diet, likedBy: updatedLikedBy };
+          }
+          return _diet;
+        });
+      });
+    } else {
+      setMyDietsState((myDiets) => {
+        return [...myDiets].map((_diet) => {
+          if (_diet.id === dietId) {
+            return { ..._diet, likedBy: [..._diet.likedBy, currentUser] };
+          }
+          return _diet;
+        });
+      });
+    }
 
     setAlreadyLiked((prev) => !prev);
   };
 
   const handleSave = async () => {
-    await saveDiet(user.id, dietId);
+    await saveDiet(currentUser.id, dietId);
+
+    if (alreadySaved) {
+      setMyDietsState((myDiets) => {
+        return [...myDiets].map((_diet) => {
+          if (_diet.id === dietId) {
+            const updatedSavedBy = _diet.savedBy.filter(({ id }) => id !== currentUser.id);
+            return { ..._diet, savedBy: updatedSavedBy };
+          }
+          return _diet;
+        });
+      });
+    } else {
+      setMyDietsState((myDiets) => {
+        return [...myDiets].map((_diet) => {
+          if (_diet.id === dietId) {
+            return { ..._diet, savedBy: [..._diet.savedBy, currentUser] };
+          }
+          return _diet;
+        });
+      });
+    }
 
     setAlreadySaved((prev) => !prev);
   };
@@ -72,7 +124,7 @@ export const DietDetails = () => {
   const likeButton = alreadyLiked ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />;
   const saveButton = alreadySaved ? <GradeIcon /> : <GradeOutlinedIcon />;
 
-  return (
+  return diet ? (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h2
@@ -80,8 +132,8 @@ export const DietDetails = () => {
           style={{ textTransform: 'none', display: 'flex', alignItems: 'center' }}
         >
           <div>{`${userName}'s Diet`}</div>
-          <div style={{ fontSize: '1rem', marginLeft: '1rem' }}>{`(${likes} ${
-            likes > 1 ? 'likes' : 'like'
+          <div style={{ fontSize: '1rem', marginLeft: '1rem' }}>{`(${diet.likedBy.length} ${
+            diet.likedBy.length > 1 ? 'likes' : 'like'
           })`}</div>
         </h2>
         <div style={{ display: 'flex' }}>
@@ -126,14 +178,17 @@ export const DietDetails = () => {
               alignItems: 'center',
               width: '100%',
               minWidth: '500px',
-              maxHeight: '450px',
+              maxHeight: '400px',
               overflowY: 'scroll'
             }}
           >
             {comments.length ? (
-              comments.map((comment) => {
-                return <Comment key={comment.id} comment={comment} />;
-              })
+              comments
+                .map((comment) => comment)
+                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                .map((comment) => {
+                  return <Comment key={comment.id} comment={comment} />;
+                })
             ) : (
               <div style={{ margin: '1rem' }}>No comments yet</div>
             )}
@@ -142,9 +197,21 @@ export const DietDetails = () => {
       </div>
       <div>
         <h3 style={{ marginBottom: '1rem' }}>Add comment</h3>
-        <CommentForm dietId={dietId} setComments={setComments} />
+        <CommentForm dietId={dietId} setComments={handleComments} />
       </div>
     </>
+  ) : (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '70vh'
+      }}
+    >
+      <CircularProgress />
+    </div>
   );
 };
 

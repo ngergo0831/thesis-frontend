@@ -28,5 +28,13 @@ export type Diet = {
   id: string;
   createdAt: Date;
   comments: Comment[];
-  likedBy: any[];
+  likedBy: User[];
+  savedBy: User[];
+};
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 };

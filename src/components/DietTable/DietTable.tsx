@@ -11,13 +11,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Period } from '../../enums/enums';
 import { Comment } from '../../types/types';
-import { getDietsByUserId } from '../../store/atoms/dietAtoms';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { getDietsByUserId } from '../../api/api';
+import { currentUserIdState, myDietsState } from '../../store/atoms/dietAtoms';
 
 interface Data {
   calorie: number;
@@ -181,14 +182,17 @@ const EnhancedTableToolbar = () => {
 };
 
 export const DietTable = () => {
-  const userId = '8ecaeef8-5cec-479f-83c7-0b3a884df8c0';
-
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>('createdAt');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const myDiets = useRecoilValue(getDietsByUserId(userId));
+  const [myDiets, setMyDiets] = useRecoilState(myDietsState);
+  const userId = useRecoilValue(currentUserIdState);
+
+  useEffect(() => {
+    getDietsByUserId(userId).then(setMyDiets);
+  }, [userId]);
 
   const handleRequestSort = (_event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
