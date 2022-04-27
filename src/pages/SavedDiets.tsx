@@ -41,7 +41,9 @@ const SavedDiets = () => {
           <DietTable
             key={creatorId + Math.random()}
             diets={diets}
-            toolbarText={creatorId === userId ? 'My saved diets' : `${userName}'s diets`}
+            toolbarText={
+              creatorId === userId ? 'My saved diets' : userName ? `${userName}'s diets` : ''
+            }
           />
         </div>
       );

@@ -12,6 +12,8 @@ export type Intake = {
   fat: number;
   carbs: number;
   protein: number;
+  userId: string;
+  id: string;
 };
 
 export type Comment = {

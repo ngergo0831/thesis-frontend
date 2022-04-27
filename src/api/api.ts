@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Diet, Measurement, User } from '../types/types';
+import { Diet, Intake, Measurement, User } from '../types/types';
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000'
@@ -60,5 +60,10 @@ export const getSavedDietsByUserId = async (userId: string): Promise<Diet[]> => 
 
 export const getUsers = async (): Promise<User[]> => {
   const { data } = await api.get('/users');
+  return data;
+};
+
+export const getIntakes = async (): Promise<Intake[]> => {
+  const { data } = await api.get('/intakes');
   return data;
 };
