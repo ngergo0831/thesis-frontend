@@ -19,6 +19,7 @@ import {
   currentUserState,
   dietsState
 } from '../../store/atoms/dietAtoms';
+import { DietPeriodBadge } from '../DietPeriodBadge/DietPeriodBadge';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
@@ -32,6 +33,11 @@ export const DietDetails = () => {
   const [comments, setComments] = useState<CommentType[]>([]);
 
   const userName = creator?.email.substring(0, creator?.email.lastIndexOf('@'));
+
+  const likeButton = alreadyLiked ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />;
+  const saveButton = alreadySaved ? <GradeIcon /> : <GradeOutlinedIcon />;
+
+  const ownDiet = diet?.creatorId === currentUser?.id;
 
   useEffect(() => {
     if (!diet?.comments.length) {
@@ -121,9 +127,6 @@ export const DietDetails = () => {
     setAlreadySaved((prev) => !prev);
   };
 
-  const likeButton = alreadyLiked ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />;
-  const saveButton = alreadySaved ? <GradeIcon /> : <GradeOutlinedIcon />;
-
   return diet ? (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -135,6 +138,7 @@ export const DietDetails = () => {
           <div style={{ fontSize: '1rem', marginLeft: '1rem' }}>{`(${diet.likedBy.length} ${
             diet.likedBy.length > 1 ? 'likes' : 'like'
           })`}</div>
+          <DietPeriodBadge label={diet.period} />
         </h2>
         <div style={{ display: 'flex' }}>
           <Button
@@ -142,6 +146,7 @@ export const DietDetails = () => {
             variant="text"
             startIcon={likeButton}
             onClick={handleLike}
+            disabled={ownDiet}
           >
             Like
           </Button>

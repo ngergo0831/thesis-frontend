@@ -9,7 +9,12 @@ const SavedDiets = () => {
   const savedDiets = useRecoilValue(savedDietsState(userId));
   const users = useRecoilValue(usersState);
 
-  const creatorIds = [...Array.from(new Set(savedDiets.map((diet) => diet.creatorId)))];
+  let creatorIds = [...Array.from(new Set(savedDiets.map((diet) => diet.creatorId)))];
+
+  if (creatorIds.includes(userId)) {
+    creatorIds = creatorIds.filter((creatorId) => creatorId !== userId);
+    creatorIds.unshift(userId);
+  }
 
   const creatorIdToUserName = creatorIds.reduce((acc, creatorId) => {
     const user = users.find(({ id }) => id === creatorId);
