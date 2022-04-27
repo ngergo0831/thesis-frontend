@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { CalorieIntakeChart } from '../components/CalorieIntakeChart/CalorieIntakeChart';
 import { CalorieIntakeForm } from '../components/CalorieIntakeForm/CalorieIntakeForm';
@@ -28,16 +29,32 @@ const CalorieIntake = () => {
         <div style={style('row')}>
           <div style={(style('column'), { width: '33.3%' })}>
             <CalorieIntakeForm />
-            <CalorieIntakeChart label="kcal" />
+            <CalorieIntakeChart
+              title="calorie"
+              data={intakes.map((intake) => intake.calorie).slice(0, 7)}
+              labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
+            />
           </div>
           <div style={(style('column'), { width: '66.6%' })}>
             <CalorieIntakeHistoryTable intakes={intakes} />
           </div>
         </div>
         <div style={style('row')}>
-          <CalorieIntakeChart label="fat" />
-          <CalorieIntakeChart label="ch" />
-          <CalorieIntakeChart label="protein" />
+          <CalorieIntakeChart
+            title="fat"
+            data={intakes.map((intake) => intake.fat).slice(0, 7)}
+            labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
+          />
+          <CalorieIntakeChart
+            title="carbohydrate"
+            data={intakes.map((intake) => intake.carbs).slice(0, 7)}
+            labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
+          />
+          <CalorieIntakeChart
+            title="protein"
+            data={intakes.map((intake) => intake.protein).slice(0, 7)}
+            labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
+          />
         </div>
       </div>
     </>

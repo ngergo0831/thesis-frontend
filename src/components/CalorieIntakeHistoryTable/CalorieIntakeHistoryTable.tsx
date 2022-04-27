@@ -56,7 +56,7 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
 
   const setIntakes = useSetRecoilState(intakesState);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -66,7 +66,7 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
   };
 
   return (
-    <BoxContainer>
+    <BoxContainer style={{ minHeight: 456, justifyContent: 'flex-start' }}>
       <Toolbar sx={{ width: '100%' }}>
         <Typography sx={{ justifySelf: 'flex-start' }} variant="h6" id="tableTitle" component="div">
           Intake history
@@ -119,7 +119,7 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100, { label: 'All', value: -1 }]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={intakes.length}
         rowsPerPage={rowsPerPage}

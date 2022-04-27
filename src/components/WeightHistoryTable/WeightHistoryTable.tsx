@@ -78,7 +78,7 @@ export const WeightHistoryTable = ({ measurements }: WeightHistoryTableProps) =>
     setMeasurements(modifiedMeasurements);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -142,7 +142,7 @@ export const WeightHistoryTable = ({ measurements }: WeightHistoryTableProps) =>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100, { label: 'All', value: -1 }]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={measurements.length}
         rowsPerPage={rowsPerPage}

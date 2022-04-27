@@ -1,8 +1,5 @@
 import { Line } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
 import { BoxContainer } from '../../GlobalStyles';
-
-Chart.register(...registerables);
 
 interface ChartProps {
   data: number[];
@@ -74,7 +71,7 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
   return (
     <BoxContainer fullwidth={false}>
       <div style={{ fontSize: '0.825rem', margin: '1rem 0' }}>
-        Last 7 measurements (descending order)
+        Last {data.length} measurements (descending order)
       </div>
       <div style={{ width: '100%', height: '14rem' }}>
         <Line data={lineData} options={options} />

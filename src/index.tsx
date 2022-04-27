@@ -9,7 +9,10 @@ import './assets/css/grid.css';
 import './assets/css/theme.css';
 import { RecoilRoot } from 'recoil';
 
+import { Chart, registerables } from 'chart.js';
+
 document.title = 'WIP';
+Chart.register(...registerables);
 
 ReactDOM.render(
   <React.StrictMode>

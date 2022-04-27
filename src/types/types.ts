@@ -14,6 +14,7 @@ export type Intake = {
   protein: number;
   userId: string;
   id: string;
+  createdAt: Date;
 };
 
 export type Comment = {
