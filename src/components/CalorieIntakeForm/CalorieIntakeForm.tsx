@@ -1,9 +1,28 @@
 import { Button, Input, InputAdornment } from '@mui/material';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { BoxContainer } from '../../GlobalStyles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { createIntake } from '../../api/api';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentUserIdState } from '../../store/atoms/dietAtoms';
+import { intakesState, myIntakesState } from '../../store/atoms/intakeAtoms';
 
 export const CalorieIntakeForm = () => {
+  const [calorie, setCalories] = useState(0);
+  const [fat, setFat] = useState(0);
+  const [carbs, setCarbs] = useState(0);
+  const [protein, setProtein] = useState(0);
+
+  const userId = useRecoilValue(currentUserIdState);
+  const intakes = useRecoilValue(myIntakesState(userId));
+  const setIntakes = useSetRecoilState(intakesState);
+
+  const handleCreateIntake = (event) => {
+    event.preventDefault();
+    createIntake(userId, { calorie, fat, carbs, protein }).then((createdIntake) => {
+      setIntakes([createdIntake, ...intakes]);
+    });
+  };
   return (
     <BoxContainer style={{ alignItems: 'flex-start' }}>
       <h3>Add new intake</h3>
@@ -25,9 +44,10 @@ export const CalorieIntakeForm = () => {
               max: 10000,
               style: { textAlign: 'center' }
             }}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              (e.target.value = e.target.value.slice(0, 5))
-            }
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              e.target.value = e.target.value.slice(0, 5);
+              setCalories(parseInt(e.target.value, 10));
+            }}
           />
           <div>Calories</div>
         </div>
@@ -48,9 +68,10 @@ export const CalorieIntakeForm = () => {
               max: 999,
               style: { textAlign: 'center' }
             }}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              (e.target.value = e.target.value.slice(0, 3))
-            }
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              e.target.value = e.target.value.slice(0, 3);
+              setFat(parseInt(e.target.value, 10));
+            }}
           />
           <div>Fat</div>
         </div>
@@ -71,9 +92,10 @@ export const CalorieIntakeForm = () => {
               max: 999,
               style: { textAlign: 'center' }
             }}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              (e.target.value = e.target.value.slice(0, 3))
-            }
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              e.target.value = e.target.value.slice(0, 3);
+              setCarbs(parseInt(e.target.value, 10));
+            }}
           />
           <div>Carbs</div>
         </div>
@@ -94,9 +116,10 @@ export const CalorieIntakeForm = () => {
               max: 999,
               style: { textAlign: 'center' }
             }}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              (e.target.value = e.target.value.slice(0, 3))
-            }
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              e.target.value = e.target.value.slice(0, 3);
+              setProtein(parseInt(e.target.value, 10));
+            }}
           />
           <div>Protein</div>
         </div>
@@ -107,6 +130,8 @@ export const CalorieIntakeForm = () => {
           sx={{
             padding: '0.5rem'
           }}
+          onClick={handleCreateIntake}
+          disabled={calorie === 0 || fat === 0 || carbs === 0 || protein === 0}
         >
           Add
         </Button>

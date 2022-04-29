@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Period } from '../enums/enums';
 import { Diet, Intake, Measurement, User } from '../types/types';
 
 export const api = axios.create({
@@ -65,5 +66,14 @@ export const getUsers = async (): Promise<User[]> => {
 
 export const getIntakes = async (): Promise<Intake[]> => {
   const { data } = await api.get('/intakes');
+  return data;
+};
+
+export const createDiet = async (creatorId: string, intakeId: string, period: Period) => {
+  await api.post(`/intakes/${intakeId}/create-diet`, { creatorId, period });
+};
+
+export const createIntake = async (userId: string, intake: Partial<Intake>) => {
+  const { data } = await api.post('/intakes', { userId, ...intake });
   return data;
 };

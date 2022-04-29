@@ -11,9 +11,12 @@ import {
   Link
 } from '@mui/material';
 import moment from 'moment';
-import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { createDiet } from '../../api/api';
+import { Period } from '../../enums/enums';
 import { BoxContainer } from '../../GlobalStyles';
+import { currentUserIdState } from '../../store/atoms/dietAtoms';
 import { intakesState } from '../../store/atoms/intakeAtoms';
 import { Intake } from '../../types/types';
 
@@ -54,6 +57,7 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedIntake, setSelectedIntake] = useState<Intake | null>(null);
 
+  const userId = useRecoilValue(currentUserIdState);
   const setIntakes = useSetRecoilState(intakesState);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
@@ -65,8 +69,22 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
     setPage(0);
   };
 
+  const dietAlreadyCreated = (intake) => {
+    return intake.diet;
+  };
+
+  useEffect(() => {
+    if (selectedIntake) {
+      const { id } = selectedIntake;
+      createDiet(userId, selectedIntake.id, Period.Daily).then(() => setSelectedIntake(null));
+      setIntakes((_intakes) =>
+        _intakes.map((intake) => (intake.id === id ? { ...intake, diet: true } : intake))
+      );
+    }
+  }, [selectedIntake]);
+
   return (
-    <BoxContainer style={{ minHeight: 456, justifyContent: 'flex-start' }}>
+    <BoxContainer style={{ minHeight: 476, justifyContent: 'flex-start' }}>
       <Toolbar sx={{ width: '100%' }}>
         <Typography sx={{ justifySelf: 'flex-start' }} variant="h6" id="tableTitle" component="div">
           Intake history
@@ -94,15 +112,19 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
                   {columns.map((column) => {
                     const value =
                       column.id === 'link' ? (
-                        <Link
-                          component="button"
-                          variant="body2"
-                          onClick={() => {
-                            setSelectedIntake(row);
-                          }}
-                        >
-                          Link to diet
-                        </Link>
+                        dietAlreadyCreated(row) ? (
+                          <div style={{ opacity: '0.4' }}>Diet already created</div>
+                        ) : (
+                          <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                              setSelectedIntake(row);
+                            }}
+                          >
+                            Create diet
+                          </Link>
+                        )
                       ) : (
                         row[column.id]
                       );
