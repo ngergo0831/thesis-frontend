@@ -13,13 +13,10 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import GradeIcon from '@mui/icons-material/Grade';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import { likeDiet, saveDiet } from '../../api/api';
-import {
-  currentDietState,
-  currentDietUserQuery,
-  currentUserState,
-  dietsState
-} from '../../store/atoms/dietAtoms';
+import { currentDietState, currentDietUserQuery, dietsState } from '../../store/atoms/dietAtoms';
 import { DietPeriodBadge } from '../DietPeriodBadge/DietPeriodBadge';
+import { currentUserState } from '../../store/atoms/userAtoms';
+import { currentPageState } from '../../store/atoms/pageAtoms';
 
 export const DietDetails = () => {
   const { dietId } = useParams<{ dietId: string }>();
@@ -221,6 +218,9 @@ export const DietDetails = () => {
 };
 
 export const DietDetailsPage = () => {
+  const setPageHeader = useSetRecoilState(currentPageState);
+
+  setPageHeader('Diet Details');
   return (
     <Suspense fallback={<CircularProgress />}>
       <DietDetails />

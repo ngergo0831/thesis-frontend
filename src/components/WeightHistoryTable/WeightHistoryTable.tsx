@@ -88,7 +88,7 @@ export const WeightHistoryTable = ({ measurements }: WeightHistoryTableProps) =>
   };
 
   return (
-    <BoxContainer>
+    <BoxContainer style={{ minHeight: 476, justifyContent: 'flex-start' }}>
       <Toolbar sx={{ width: '100%' }}>
         <Typography sx={{ justifySelf: 'flex-start' }} variant="h6" id="tableTitle" component="div">
           Measurement history

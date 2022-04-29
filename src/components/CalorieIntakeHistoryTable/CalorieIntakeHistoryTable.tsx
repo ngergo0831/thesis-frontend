@@ -16,7 +16,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { createDiet } from '../../api/api';
 import { Period } from '../../enums/enums';
 import { BoxContainer } from '../../GlobalStyles';
-import { currentUserIdState } from '../../store/atoms/dietAtoms';
+import { currentUserIdState } from '../../store/atoms/userAtoms';
 import { intakesState } from '../../store/atoms/intakeAtoms';
 import { Intake } from '../../types/types';
 

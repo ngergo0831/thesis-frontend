@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { currentPageState } from '../store/atoms/pageAtoms';
 
 const Dashboard = () => {
+  const setPage = useSetRecoilState(currentPageState);
+
+  setPage('Dashboard');
+
   return (
     <div>
-      <h2 className="page-header">Dashboard</h2>
       <div className="row">
         <div className="col-4">
           <div className="card">

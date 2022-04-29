@@ -2,7 +2,7 @@ import { Button, TextareaAutosize } from '@mui/material';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { createComment } from '../../api/api';
-import { currentUserState } from '../../store/atoms/dietAtoms';
+import { currentUserState } from '../../store/atoms/userAtoms';
 import { Comment } from '../../types/types';
 import { Avatar } from '../Avatar/Avatar';
 

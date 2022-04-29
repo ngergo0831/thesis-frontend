@@ -1,7 +1,11 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { useSetRecoilState } from 'recoil';
+import { currentPageState } from '../store/atoms/pageAtoms';
 
 const PersonalRecommendations = () => {
-  return <FormControl component="fieldset"></FormControl>;
+  const setPage = useSetRecoilState(currentPageState);
+
+  setPage('Personal Recommendations');
+  return <div>Personal</div>;
 };
 
 export default PersonalRecommendations;

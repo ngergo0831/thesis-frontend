@@ -1,13 +1,18 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { DietTable } from '../components/DietTable/DietTable';
-import { currentUserIdState, savedDietsState } from '../store/atoms/dietAtoms';
-import { usersState } from '../store/atoms/userAtoms';
+import { savedDietsState } from '../store/atoms/dietAtoms';
+import { currentPageState } from '../store/atoms/pageAtoms';
+import { currentUserIdState, usersState } from '../store/atoms/userAtoms';
 import { Diet } from '../types/types';
 
 const SavedDiets = () => {
   const userId = useRecoilValue(currentUserIdState);
   const savedDiets = useRecoilValue(savedDietsState(userId));
   const users = useRecoilValue(usersState);
+
+  const setPage = useSetRecoilState(currentPageState);
+
+  setPage('Saved Diets');
 
   let creatorIds = [...Array.from(new Set(savedDiets.map((diet) => diet.creatorId)))];
 
@@ -50,12 +55,7 @@ const SavedDiets = () => {
     });
   };
 
-  return (
-    <>
-      <h2 className="page-header">Saved diets</h2>
-      {generateDietTable()}
-    </>
-  );
+  return <>{generateDietTable()}</>;
 };
 
 export default SavedDiets;

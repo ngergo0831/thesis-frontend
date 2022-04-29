@@ -4,8 +4,8 @@ import { BoxContainer } from '../../GlobalStyles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { createIntake } from '../../api/api';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentUserIdState } from '../../store/atoms/dietAtoms';
 import { intakesState, myIntakesState } from '../../store/atoms/intakeAtoms';
+import { currentUserIdState } from '../../store/atoms/userAtoms';
 
 export const CalorieIntakeForm = () => {
   const [calorie, setCalories] = useState(0);

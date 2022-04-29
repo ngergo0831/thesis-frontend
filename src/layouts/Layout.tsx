@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { getDiets, getIntakes, getUserById, getUsers } from '../api/api';
+import { getDiets, getIntakes, getMeasurementsByUserId, getUserById, getUsers } from '../api/api';
 import { Sidebar } from '../components/Sidebar/Sidebar';
 import Topnav from '../components/TopNav/TopNav';
 import Routes from '../Routes';
-import { currentUserState, dietsState } from '../store/atoms/dietAtoms';
+import { dietsState } from '../store/atoms/dietAtoms';
 import { intakesState } from '../store/atoms/intakeAtoms';
-import { usersState } from '../store/atoms/userAtoms';
+import { currentUserState, usersState } from '../store/atoms/userAtoms';
+import { measurementsState } from '../store/atoms/weightAtoms';
 
 import './layout.css';
 
@@ -16,6 +17,7 @@ const Layout = () => {
   const setDiets = useSetRecoilState(dietsState);
   const setUsers = useSetRecoilState(usersState);
   const setIntakes = useSetRecoilState(intakesState);
+  const setMeasurements = useSetRecoilState(measurementsState);
   const userId = '8ecaeef8-5cec-479f-83c7-0b3a884df8c0';
   const [isDataFetched, setIsDataFetched] = useState(false);
 
@@ -24,6 +26,7 @@ const Layout = () => {
     getDiets().then(setDiets);
     getUsers().then(setUsers);
     getIntakes().then(setIntakes);
+    getMeasurementsByUserId(userId).then(setMeasurements);
     setIsDataFetched(true);
 
     return () => {

@@ -1,4 +1,4 @@
-import { atom, selector, selectorFamily } from 'recoil';
+import { atom, selectorFamily } from 'recoil';
 import { getUserById } from '../../api/api';
 import { Diet, User } from '../../types/types';
 
@@ -54,17 +54,5 @@ export const currentDietUserQuery = selectorFamily({
       return null;
     }
     return getUserById(id);
-  }
-});
-
-export const currentUserState = atom({
-  key: 'currentUserState',
-  default: {} as User
-});
-
-export const currentUserIdState = selector({
-  key: 'currentUserIdState',
-  get: ({ get }) => {
-    return get(currentUserState).id;
   }
 });

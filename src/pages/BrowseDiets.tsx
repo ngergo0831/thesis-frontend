@@ -1,17 +1,17 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { DietTable } from '../components/DietTable/DietTable';
-import { currentUserIdState, othersDietsState } from '../store/atoms/dietAtoms';
+import { othersDietsState } from '../store/atoms/dietAtoms';
+import { currentPageState } from '../store/atoms/pageAtoms';
+import { currentUserIdState } from '../store/atoms/userAtoms';
 
 const BrowseDiets = () => {
   const userId = useRecoilValue(currentUserIdState);
   const othersDiets = useRecoilValue(othersDietsState(userId));
+  const setPage = useSetRecoilState(currentPageState);
 
-  return (
-    <>
-      <h2 className="page-header">Browse all diets</h2>
-      <DietTable diets={othersDiets} />
-    </>
-  );
+  setPage('Browse Diets');
+
+  return <DietTable diets={othersDiets} />;
 };
 
 export default BrowseDiets;
