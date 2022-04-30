@@ -29,12 +29,13 @@ const Dashboard = () => {
       <div style={style('column')}>
         <div style={style('row')}>
           <CalorieIntakeChart
-            title="calorie"
+            title={'calorie (RI 2000 kcal)' as any}
             data={intakes.map((intake) => intake.calorie).slice(0, 7)}
             labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
+            dottedData={Array(intakes.length % 7).fill(2000)}
           />
           <CalorieIntakeChart
-            title={'weight' as any}
+            title="weight"
             data={measurements.map((measurement) => measurement.weight).slice(0, 7)}
             labels={measurements
               .map((measurement) => moment(measurement.createdAt).format('M/D'))
