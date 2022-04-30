@@ -91,3 +91,12 @@ export const login = async (email: string, password: string) => {
 export const logout = async () => {
   await api.post('/api/logout');
 };
+
+export const register = async (
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
+) => {
+  await api.post('/api/register', { firstName, lastName, email, password });
+};

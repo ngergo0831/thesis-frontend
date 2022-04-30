@@ -2,8 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,6 +13,8 @@ import { getUser, login } from '../api/api';
 import { useHistory } from 'react-router-dom';
 import { currentUserState, isUserLoggedInState } from '../store/atoms/userAtoms';
 import { useSetRecoilState } from 'recoil';
+import { useState } from 'react';
+import { Alert } from '@mui/material';
 
 const theme = createTheme();
 
@@ -22,9 +22,11 @@ export const Login = () => {
   const history = useHistory();
   const setIsLoggedIn = useSetRecoilState(isUserLoggedInState);
   const setCurrentUser = useSetRecoilState(currentUserState);
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError(false);
     const data = new FormData(event.currentTarget);
     try {
       await login(data.get('email').toString(), data.get('password').toString());
@@ -34,6 +36,7 @@ export const Login = () => {
       history.push('/success');
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   };
 
@@ -49,6 +52,11 @@ export const Login = () => {
             alignItems: 'center'
           }}
         >
+          {error && (
+            <Alert severity="error">
+              There was an error during login. Please check your credentials!
+            </Alert>
+          )}
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
