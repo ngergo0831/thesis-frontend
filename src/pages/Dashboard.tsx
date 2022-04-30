@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CalorieIntakeChart } from '../components/CalorieIntakeChart/CalorieIntakeChart';
 import { DashboardCommentsContainer } from '../components/DashboardComments/DashboardComments';
 import { DashboardStats } from '../components/DashboardStats/DashboardStats';
+import { DashboardUserInfo } from '../components/DashboardUserInfo/DashboardUserInfo';
 import { style } from '../GlobalStyles';
 import { myIntakesState } from '../store/atoms/intakeAtoms';
 import { currentPageState } from '../store/atoms/pageAtoms';
@@ -22,7 +23,9 @@ const Dashboard = () => {
 
   return (
     <>
-      <h2 className="page-header">Welcome back, {user.firstName}</h2>
+      <h2 className="page-header" style={{ textTransform: 'none' }}>
+        Welcome back, {user.firstName}
+      </h2>
       <div style={style('column')}>
         <div style={style('row')}>
           <CalorieIntakeChart
@@ -39,7 +42,20 @@ const Dashboard = () => {
           />
         </div>
         <div style={style('row')}>
-          <DashboardStats />
+          <div
+            style={
+              (style('column'),
+              {
+                width: '40%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'space-between'
+              })
+            }
+          >
+            <DashboardUserInfo />
+            <DashboardStats />
+          </div>
           <DashboardCommentsContainer />
         </div>
       </div>

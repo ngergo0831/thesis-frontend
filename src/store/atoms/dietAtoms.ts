@@ -56,3 +56,39 @@ export const currentDietUserQuery = selectorFamily({
     return getUserById(id);
   }
 });
+
+export const countDietsSavedByOthers = selectorFamily({
+  key: 'countDietsSavedByOthers',
+  get:
+    (userId: string) =>
+    ({ get }): number => {
+      const diets = get(dietsState);
+      return diets.filter(
+        ({ savedBy, creatorId }) => creatorId === userId && savedBy.some(({ id }) => id !== userId)
+      ).length;
+    }
+});
+
+export const countDietsLikedByOthers = selectorFamily({
+  key: 'countDietsLikedByOthers',
+  get:
+    (userId: string) =>
+    ({ get }): number => {
+      const diets = get(dietsState);
+      return diets.filter(
+        ({ creatorId, likedBy }) => creatorId === userId && likedBy.some(({ id }) => id !== userId)
+      ).length;
+    }
+});
+
+export const countMyLikes = selectorFamily({
+  key: 'countMyLikes',
+  get:
+    (userId: string) =>
+    ({ get }): number => {
+      const diets = get(dietsState);
+      return diets.filter(
+        ({ creatorId, likedBy }) => creatorId !== userId && likedBy.some(({ id }) => id === userId)
+      ).length;
+    }
+});
