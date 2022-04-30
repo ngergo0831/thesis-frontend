@@ -6,7 +6,7 @@ import { currentPageState } from '../store/atoms/pageAtoms';
 import { currentUserIdState, usersState } from '../store/atoms/userAtoms';
 import { Diet } from '../types/types';
 
-const SavedDiets = () => {
+export const SavedDiets = () => {
   const userId = useRecoilValue(currentUserIdState);
   const savedDiets = useRecoilValue(savedDietsState(userId));
   const users = useRecoilValue(usersState);
@@ -60,5 +60,3 @@ const SavedDiets = () => {
 
   return <>{generateDietTable()}</>;
 };
-
-export default SavedDiets;

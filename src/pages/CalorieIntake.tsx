@@ -9,7 +9,7 @@ import { currentPageState } from '../store/atoms/pageAtoms';
 import { style } from '../GlobalStyles';
 import { useEffect } from 'react';
 
-const CalorieIntake = () => {
+export const CalorieIntake = () => {
   const currentUserId = useRecoilValue(currentUserIdState);
   const intakes = useRecoilValue(myIntakesState(currentUserId));
 
@@ -54,5 +54,3 @@ const CalorieIntake = () => {
     </div>
   );
 };
-
-export default CalorieIntake;

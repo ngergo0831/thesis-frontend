@@ -5,7 +5,7 @@ import { othersDietsState } from '../store/atoms/dietAtoms';
 import { currentPageState } from '../store/atoms/pageAtoms';
 import { currentUserIdState } from '../store/atoms/userAtoms';
 
-const BrowseDiets = () => {
+export const BrowseDiets = () => {
   const userId = useRecoilValue(currentUserIdState);
   const othersDiets = useRecoilValue(othersDietsState(userId));
   const setPage = useSetRecoilState(currentPageState);
@@ -16,5 +16,3 @@ const BrowseDiets = () => {
 
   return <DietTable diets={othersDiets} />;
 };
-
-export default BrowseDiets;

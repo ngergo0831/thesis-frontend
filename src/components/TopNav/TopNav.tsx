@@ -1,9 +1,15 @@
 import { Settings, Logout, Person } from '@mui/icons-material';
 import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useHistory } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { logout } from '../../api/api';
 import { currentPageState } from '../../store/atoms/pageAtoms';
-import { currentUserEmail, currentUserName } from '../../store/atoms/userAtoms';
+import {
+  currentUserEmail,
+  currentUserName,
+  isUserLoggedInState
+} from '../../store/atoms/userAtoms';
 import { Avatar } from '../Avatar/Avatar';
 import './topnav.css';
 
@@ -11,6 +17,9 @@ const Topnav = () => {
   const userName = useRecoilValue(currentUserName);
   const userEmail = useRecoilValue(currentUserEmail);
   const page = useRecoilValue(currentPageState);
+  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
+
+  const history = useHistory();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -19,6 +28,12 @@ const Topnav = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setIsUserLoggedIn(false);
+    history.push('/logout');
   };
 
   return (
@@ -89,7 +104,7 @@ const Topnav = () => {
               </ListItemIcon>
               Profile settings
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

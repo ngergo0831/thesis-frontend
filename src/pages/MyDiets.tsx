@@ -5,7 +5,7 @@ import { myDietsState } from '../store/atoms/dietAtoms';
 import { currentPageState } from '../store/atoms/pageAtoms';
 import { currentUserIdState } from '../store/atoms/userAtoms';
 
-const MyDiets = () => {
+export const MyDiets = () => {
   const userId = useRecoilValue(currentUserIdState);
   const myDiets = useRecoilValue(myDietsState(userId));
 
@@ -17,5 +17,3 @@ const MyDiets = () => {
 
   return <DietTable diets={myDiets} />;
 };
-
-export default MyDiets;

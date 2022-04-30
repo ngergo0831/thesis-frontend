@@ -1,14 +1,15 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { WeightTracker } from './pages/WeightTracker';
-import CalorieIntake from './pages/CalorieIntake';
-import Dashboard from './pages/Dashboard';
-import MyDiets from './pages/MyDiets';
-import SavedDiets from './pages/SavedDiets';
-import BrowseDiets from './pages/BrowseDiets';
-import PersonalRecommendations from './pages/PersonalRecommendations';
-import MyProfile from './pages/MyProfile';
-import Settings from './pages/Settings';
+import { CalorieIntake } from './pages/CalorieIntake';
+import { Dashboard } from './pages/Dashboard';
+import { MyDiets } from './pages/MyDiets';
+import { SavedDiets } from './pages/SavedDiets';
+import { BrowseDiets } from './pages/BrowseDiets';
+import { PersonalRecommendations } from './pages/PersonalRecommendations';
+import { MyProfile } from './pages/MyProfile';
+import { Settings } from './pages/Settings';
 import { DietDetailsPage } from './components/DietDetails/DietDetails';
+import { LayoutSwitch } from './layouts/LayoutSwitch';
 
 const Routes = () => {
   return (
@@ -23,6 +24,8 @@ const Routes = () => {
       <Route path="/personal-recommendations" component={PersonalRecommendations} />
       <Route path="/my-profile" component={MyProfile} />
       <Route path="/settings" component={Settings} />
+      <Route path="/logout" component={LayoutSwitch} />
+      <Redirect from="*" to="/" />
     </Switch>
   );
 };

@@ -1,28 +1,26 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { getDiets, getIntakes, getMeasurementsByUserId, getUserById, getUsers } from '../api/api';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { getDiets, getIntakes, getMeasurementsByUserId, getUsers } from '../api/api';
 import { Sidebar } from '../components/Sidebar/Sidebar';
 import Topnav from '../components/TopNav/TopNav';
 import Routes from '../Routes';
 import { dietsState } from '../store/atoms/dietAtoms';
 import { intakesState } from '../store/atoms/intakeAtoms';
-import { currentUserState, usersState } from '../store/atoms/userAtoms';
+import { currentUserIdState, usersState } from '../store/atoms/userAtoms';
 import { measurementsState } from '../store/atoms/weightAtoms';
 
 import './layout.css';
 
 const Layout = () => {
-  const setCurrentUser = useSetRecoilState(currentUserState);
+  const userId = useRecoilValue(currentUserIdState);
   const setDiets = useSetRecoilState(dietsState);
   const setUsers = useSetRecoilState(usersState);
   const setIntakes = useSetRecoilState(intakesState);
   const setMeasurements = useSetRecoilState(measurementsState);
-  const userId = '8ecaeef8-5cec-479f-83c7-0b3a884df8c0';
   const [isDataFetched, setIsDataFetched] = useState(false);
 
   useEffect(() => {
-    getUserById(userId).then(setCurrentUser);
     getDiets().then(setDiets);
     getUsers().then(setUsers);
     getIntakes().then(setIntakes);

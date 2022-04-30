@@ -31,3 +31,8 @@ export const currentUserEmail = selector<string>({
     return get(currentUserState).email;
   }
 });
+
+export const isUserLoggedInState = atom<boolean>({
+  key: 'isUserLoggedInState',
+  default: false
+});

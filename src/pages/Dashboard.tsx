@@ -11,7 +11,7 @@ import { currentPageState } from '../store/atoms/pageAtoms';
 import { currentUserState } from '../store/atoms/userAtoms';
 import { measurementsState } from '../store/atoms/weightAtoms';
 
-const Dashboard = () => {
+export const Dashboard = () => {
   const setPage = useSetRecoilState(currentPageState);
   const user = useRecoilValue(currentUserState);
   const intakes = useRecoilValue(myIntakesState(user.id));
@@ -63,5 +63,3 @@ const Dashboard = () => {
     </>
   );
 };
-
-export default Dashboard;

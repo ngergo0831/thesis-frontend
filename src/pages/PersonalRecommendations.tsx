@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { currentPageState } from '../store/atoms/pageAtoms';
 
-const PersonalRecommendations = () => {
+export const PersonalRecommendations = () => {
   const setPage = useSetRecoilState(currentPageState);
 
   useEffect(() => {
@@ -11,5 +11,3 @@ const PersonalRecommendations = () => {
 
   return <div>Personal</div>;
 };
-
-export default PersonalRecommendations;
