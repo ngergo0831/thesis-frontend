@@ -99,7 +99,20 @@ export const CalorieIntakeChart = ({
         Last {data.length} {title} {title !== 'weight' ? 'intakes' : 'measurements (kg)'}
       </div>
       <div style={{ width: '100%', height: '14rem' }}>
-        <Line data={lineData} options={options} />
+        {lineData.labels.length > 1 ? (
+          <Line data={lineData} options={options} />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            At least 2 intakes are required to display a chart
+          </div>
+        )}
       </div>
     </BoxContainer>
   );

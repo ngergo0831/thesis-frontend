@@ -37,22 +37,20 @@ export const WeightTracker = () => {
           <WeightDisplay weight={(measurements[0]?.weight as number) ?? 0} />
           <WeightInput userId={userId} />
         </div>
-        {measurements.length && (
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'center'
-            }}
-          >
-            <WeightChart
-              data={measurements.map((measurement) => measurement.weight).slice(0, 7)}
-              labels={measurements
-                .map((measurement) => moment(measurement.createdAt).format('M/D'))
-                .slice(0, 7)}
-            />
-          </div>
-        )}
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'center'
+          }}
+        >
+          <WeightChart
+            data={measurements.map((measurement) => measurement.weight).slice(0, 7)}
+            labels={measurements
+              .map((measurement) => moment(measurement.createdAt).format('M/D'))
+              .slice(0, 7)}
+          />
+        </div>
       </WeightTrackerContainer>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <WeightHistoryTable measurements={measurements} />
