@@ -41,21 +41,25 @@ export const SavedDiets = () => {
   );
 
   const generateDietTable = () => {
-    return Array.from(sortedSavedDietsMap).map((entry) => {
-      const [creatorId, userName] = entry[0];
-      const diets = entry[1];
-      return (
-        <div style={{ marginBottom: '1rem' }} key={creatorId + Math.random()}>
-          <DietTable
-            key={creatorId + Math.random()}
-            diets={diets}
-            toolbarText={
-              creatorId === userId ? 'My saved diets' : userName ? `${userName}'s diets` : ''
-            }
-          />
-        </div>
-      );
-    });
+    return sortedSavedDietsMap.size ? (
+      Array.from(sortedSavedDietsMap).map((entry) => {
+        const [creatorId, userName] = entry[0];
+        const diets = entry[1];
+        return (
+          <div style={{ marginBottom: '1rem' }} key={creatorId + Math.random()}>
+            <DietTable
+              key={creatorId + Math.random()}
+              diets={diets}
+              toolbarText={
+                creatorId === userId ? 'My saved diets' : userName ? `${userName}'s diets` : ''
+              }
+            />
+          </div>
+        );
+      })
+    ) : (
+      <div>You don't have saved diets yet.</div>
+    );
   };
 
   return <>{generateDietTable()}</>;
