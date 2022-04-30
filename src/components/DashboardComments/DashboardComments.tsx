@@ -11,6 +11,9 @@ export const DashboardComments = () => {
   const diets = useRecoilValue(dietsState);
   const [comments, setComments] = useState<CommentType[]>([]);
   const currentUserId = useRecoilValue(currentUserIdState);
+  const myDietsIds = diets
+    .filter(({ creatorId }) => creatorId === currentUserId)
+    .map(({ id }) => id);
 
   useEffect(() => {
     if (!diets?.length) {
@@ -26,6 +29,11 @@ export const DashboardComments = () => {
     setComments(dietsComments);
   }, [diets]);
 
+  const filteredComments = comments
+    .map((comment) => comment)
+    .filter(({ userId, dietId }) => userId !== currentUserId && myDietsIds.includes(dietId))
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
   return (
     <div
       style={{
@@ -38,14 +46,10 @@ export const DashboardComments = () => {
         overflowY: 'scroll'
       }}
     >
-      {comments.length ? (
-        comments
-          .map((comment) => comment)
-          .filter((comment) => comment.userId !== currentUserId)
-          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-          .map((comment) => {
-            return <Comment key={comment.id} comment={comment} />;
-          })
+      {filteredComments.length ? (
+        filteredComments.map((comment) => {
+          return <Comment key={comment.id} comment={comment} />;
+        })
       ) : (
         <div style={{ margin: '1rem' }}>No comments yet</div>
       )}
@@ -55,7 +59,7 @@ export const DashboardComments = () => {
 
 export const DashboardCommentsContainer = () => {
   return (
-    <BoxContainer style={{ width: '66%' }}>
+    <BoxContainer style={{ width: '66%', height: 456, justifyContent: 'flex-start' }}>
       <h3>Latest comments</h3>
       <Suspense fallback={<CircularProgress />}>
         <DashboardComments />

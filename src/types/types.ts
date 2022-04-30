@@ -22,6 +22,7 @@ export type Comment = {
   userId: string;
   createdAt: Date;
   id: string;
+  dietId: string;
 };
 
 export type Diet = {
