@@ -6,6 +6,8 @@ import { CalorieIntakeHistoryTable } from '../components/CalorieIntakeHistoryTab
 import { currentUserIdState } from '../store/atoms/userAtoms';
 import { myIntakesState } from '../store/atoms/intakeAtoms';
 import { currentPageState } from '../store/atoms/pageAtoms';
+import { style } from '../GlobalStyles';
+import { useEffect } from 'react';
 
 const CalorieIntake = () => {
   const currentUserId = useRecoilValue(currentUserIdState);
@@ -13,17 +15,9 @@ const CalorieIntake = () => {
 
   const setPage = useSetRecoilState(currentPageState);
 
-  setPage('Calorie Intake');
-
-  const style = (direction: 'column' | 'row') => ({
-    display: 'flex',
-    flexDirection: direction,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '0 auto',
-    width: '100%',
-    height: '100%'
-  });
+  useEffect(() => {
+    setPage('Calorie Intake');
+  }, []);
 
   return (
     <div style={style('column')}>

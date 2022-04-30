@@ -13,3 +13,13 @@ export const BoxContainer = styled.div<{ fullwidth?: boolean }>`
   margin: 0.5rem 1.5rem 2rem 1.5rem;
   width: ${({ fullwidth }) => (fullwidth ? '100%' : '-webkit-fill-available')};
 `;
+
+export const style = (direction: 'column' | 'row') => ({
+  display: 'flex',
+  flexDirection: direction,
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: '0 auto',
+  width: '100%',
+  height: '100%'
+});

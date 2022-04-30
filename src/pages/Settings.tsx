@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { currentPageState } from '../store/atoms/pageAtoms';
 
-const MyProfile = () => {
+const Settings = () => {
   const setPage = useSetRecoilState(currentPageState);
 
   useEffect(() => {
-    setPage('My Profile');
+    setPage('Settings');
   }, []);
 
-  return <div>MyProfile</div>;
+  return <div>Settings</div>;
 };
 
-export default MyProfile;
+export default Settings;

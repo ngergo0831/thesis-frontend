@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { DietTable } from '../components/DietTable/DietTable';
 import { savedDietsState } from '../store/atoms/dietAtoms';
@@ -12,7 +13,9 @@ const SavedDiets = () => {
 
   const setPage = useSetRecoilState(currentPageState);
 
-  setPage('Saved Diets');
+  useEffect(() => {
+    setPage('Saved Diets');
+  }, []);
 
   let creatorIds = [...Array.from(new Set(savedDiets.map((diet) => diet.creatorId)))];
 

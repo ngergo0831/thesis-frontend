@@ -220,7 +220,10 @@ export const DietDetails = () => {
 export const DietDetailsPage = () => {
   const setPageHeader = useSetRecoilState(currentPageState);
 
-  setPageHeader('Diet Details');
+  useEffect(() => {
+    setPageHeader('Diet Details');
+  }, []);
+
   return (
     <Suspense fallback={<CircularProgress />}>
       <DietDetails />

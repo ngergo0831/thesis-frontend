@@ -7,7 +7,7 @@ import SavedDiets from './pages/SavedDiets';
 import BrowseDiets from './pages/BrowseDiets';
 import PersonalRecommendations from './pages/PersonalRecommendations';
 import MyProfile from './pages/MyProfile';
-import SetupProfile from './pages/SetupProfile';
+import Settings from './pages/Settings';
 import { DietDetailsPage } from './components/DietDetails/DietDetails';
 
 const Routes = () => {
@@ -22,7 +22,7 @@ const Routes = () => {
       <Route path="/browse-diets" component={BrowseDiets} />
       <Route path="/personal-recommendations" component={PersonalRecommendations} />
       <Route path="/my-profile" component={MyProfile} />
-      <Route path="/setup-profile" component={SetupProfile} />
+      <Route path="/settings" component={Settings} />
     </Switch>
   );
 };

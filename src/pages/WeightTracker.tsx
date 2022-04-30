@@ -10,6 +10,7 @@ import { WeightTrackerContainer } from '../components/WeightTrackerContainer/Wei
 import { useDevice } from '../utils/useDevice';
 import { currentPageState } from '../store/atoms/pageAtoms';
 import { currentUserIdState } from '../store/atoms/userAtoms';
+import { useEffect } from 'react';
 
 export const WeightTracker = () => {
   const measurements = useRecoilValue(measurementsState);
@@ -18,7 +19,9 @@ export const WeightTracker = () => {
 
   const setPage = useSetRecoilState(currentPageState);
 
-  setPage('Weight Tracker');
+  useEffect(() => {
+    setPage('Weight Tracker');
+  }, []);
 
   return (
     <Container

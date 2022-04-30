@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { DietTable } from '../components/DietTable/DietTable';
 import { othersDietsState } from '../store/atoms/dietAtoms';
@@ -9,7 +10,9 @@ const BrowseDiets = () => {
   const othersDiets = useRecoilValue(othersDietsState(userId));
   const setPage = useSetRecoilState(currentPageState);
 
-  setPage('Browse Diets');
+  useEffect(() => {
+    setPage('Browse Diets');
+  }, []);
 
   return <DietTable diets={othersDiets} />;
 };
