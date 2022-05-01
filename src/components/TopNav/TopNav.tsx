@@ -1,7 +1,7 @@
-import { Settings, Logout, Person } from '@mui/icons-material';
-import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Logout, Person } from '@mui/icons-material';
+import { IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { logout } from '../../api/api';
 import { currentPageState } from '../../store/atoms/pageAtoms';
@@ -91,19 +91,14 @@ const Topnav = () => {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem>
-              <ListItemIcon>
-                <Person fontSize="small" />
-              </ListItemIcon>
-              My Profile
-            </MenuItem>
-            <Divider />
-            <MenuItem>
-              <ListItemIcon>
-                <Settings fontSize="small" />
-              </ListItemIcon>
-              Profile settings
-            </MenuItem>
+            <Link to="/my-profile">
+              <MenuItem style={{ display: 'flex', alignItems: 'center' }}>
+                <ListItemIcon>
+                  <Person fontSize="small" />
+                </ListItemIcon>
+                My Profile
+              </MenuItem>
+            </Link>
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />

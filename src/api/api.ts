@@ -100,3 +100,7 @@ export const register = async (
 ) => {
   await api.post('/api/register', { firstName, lastName, email, password });
 };
+
+export const changePassword = async (oldPassword: string, newPassword: string) => {
+  await api.post('/api/change-password', { oldPassword, newPassword });
+};
