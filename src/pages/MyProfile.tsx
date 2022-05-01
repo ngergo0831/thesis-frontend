@@ -57,7 +57,7 @@ export const MyProfile = () => {
     >
       <BoxContainer style={{ width: 'fit-content', gap: '2rem' }}>
         <h1>Personal information</h1>
-        <Avatar userName="John Doe" />
+        <Avatar userName={currentUser.firstName + ' ' + currentUser.lastName} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
           <FormControl variant="standard">
             <InputLabel htmlFor="input-with-icon-first-name">First name</InputLabel>

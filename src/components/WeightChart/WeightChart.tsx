@@ -1,5 +1,7 @@
 import { Line } from 'react-chartjs-2';
+import { useRecoilValue } from 'recoil';
 import { BoxContainer } from '../../GlobalStyles';
+import { themeState } from '../../store/atoms/themeAtoms';
 
 interface ChartProps {
   data: number[];
@@ -7,6 +9,10 @@ interface ChartProps {
 }
 
 export const WeightChart = ({ data, labels }: ChartProps) => {
+  const { mode: _mode, color: _color } = useRecoilValue(themeState);
+  const mode = _mode.split('-')[2];
+  const color = _color.split('-')[2];
+
   const lineData = {
     labels,
     datasets: [
@@ -14,14 +20,14 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
         data,
         pointRadius: 0,
         pointHoverRadius: 5,
-        pointBorderColor: '#000',
+        pointBorderColor: mode === 'dark' ? 'white' : 'black',
         pointStyle: 'circle',
         borderWidth: 2,
         hitRadius: 20,
         pointBackgroundColor: 'transparent',
         fill: false,
-        borderColor: '#349eff',
-        backgroundColor: 'black',
+        borderColor: color,
+        backgroundColor: mode === 'dark' ? 'white' : 'black',
         cubicInterpolationMode: 'monotone' as const
       }
     ]
@@ -54,7 +60,7 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
           color: 'transparent'
         },
         ticks: {
-          color: 'black'
+          color: mode === 'dark' ? 'white' : 'black'
         }
       },
       x: {
@@ -62,7 +68,7 @@ export const WeightChart = ({ data, labels }: ChartProps) => {
           color: 'transparent'
         },
         ticks: {
-          color: 'black'
+          color: mode === 'dark' ? 'white' : 'black'
         }
       }
     }

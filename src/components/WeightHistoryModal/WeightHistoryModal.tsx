@@ -3,6 +3,8 @@ import moment from 'moment';
 import { ChangeEvent } from 'react';
 import { Measurement } from '../../types/types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useRecoilValue } from 'recoil';
+import { themeState } from '../../store/atoms/themeAtoms';
 
 const style = {
   position: 'absolute',
@@ -37,6 +39,9 @@ export const WeightHistoryModal = ({
   weight,
   setWeight
 }: WeightHistoryModalProps) => {
+  const { mode: _mode } = useRecoilValue(themeState);
+  const mode = _mode.split('-')[2];
+
   return (
     <Modal
       open={open}
@@ -44,7 +49,7 @@ export const WeightHistoryModal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={style} style={{ color: mode === 'dark' ? 'white' : 'black' }}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Modify measurement for {moment(selectedMeasurement.createdAt).format('YYYY-MM-DD HH:mm')}
         </Typography>

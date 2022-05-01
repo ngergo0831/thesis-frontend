@@ -1,5 +1,7 @@
 import { Line } from 'react-chartjs-2';
+import { useRecoilValue } from 'recoil';
 import { BoxContainer } from '../../GlobalStyles';
+import { themeState } from '../../store/atoms/themeAtoms';
 
 interface CalorieIntakeChartProps {
   title: 'calorie' | 'fat' | 'carbohydrate' | 'protein' | 'weight';
@@ -14,6 +16,10 @@ export const CalorieIntakeChart = ({
   labels,
   dottedData
 }: CalorieIntakeChartProps) => {
+  const { mode: _mode, color: _color } = useRecoilValue(themeState);
+  const mode = _mode.split('-')[2];
+  const color = _color.split('-')[2];
+
   const lineData = {
     labels,
     datasets: [
@@ -21,14 +27,14 @@ export const CalorieIntakeChart = ({
         data,
         pointRadius: 0,
         pointHoverRadius: 5,
-        pointBorderColor: '#000',
+        pointBorderColor: mode === 'dark' ? 'white' : 'black',
         pointStyle: 'circle',
         borderWidth: 2,
         hitRadius: 20,
         pointBackgroundColor: 'transparent',
         fill: false,
-        borderColor: '#349eff',
-        backgroundColor: 'black',
+        borderColor: color,
+        backgroundColor: mode === 'dark' ? 'white' : 'black',
         cubicInterpolationMode: 'monotone' as const,
         borderDash: []
       }
@@ -40,14 +46,14 @@ export const CalorieIntakeChart = ({
       data: dottedData,
       pointRadius: 0,
       pointHoverRadius: 0,
-      pointBorderColor: '#000',
+      pointBorderColor: mode === 'dark' ? 'white' : 'black',
       pointStyle: 'circle',
       borderWidth: 2,
       hitRadius: 0,
       pointBackgroundColor: 'transparent',
       fill: false,
-      borderColor: 'black',
-      backgroundColor: 'black',
+      borderColor: mode === 'dark' ? 'white' : 'black',
+      backgroundColor: mode === 'dark' ? 'white' : 'black',
       cubicInterpolationMode: 'monotone' as const,
       borderDash: [20, 15]
     });
@@ -80,7 +86,7 @@ export const CalorieIntakeChart = ({
           color: 'transparent'
         },
         ticks: {
-          color: 'black'
+          color: mode === 'dark' ? 'white' : 'black'
         }
       },
       x: {
@@ -88,7 +94,7 @@ export const CalorieIntakeChart = ({
           color: 'transparent'
         },
         ticks: {
-          color: 'black'
+          color: mode === 'dark' ? 'white' : 'black'
         }
       }
     }
