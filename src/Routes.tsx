@@ -7,7 +7,6 @@ import { SavedDiets } from './pages/SavedDiets';
 import { BrowseDiets } from './pages/BrowseDiets';
 import { PersonalRecommendations } from './pages/PersonalRecommendations';
 import { MyProfile } from './pages/MyProfile';
-import { Settings } from './pages/Settings';
 import { DietDetailsPage } from './components/DietDetails/DietDetails';
 import { LayoutSwitch } from './layouts/LayoutSwitch';
 
@@ -23,7 +22,6 @@ const Routes = () => {
       <Route path="/browse-diets" component={BrowseDiets} />
       <Route path="/personal-recommendations" component={PersonalRecommendations} />
       <Route path="/my-profile" component={MyProfile} />
-      <Route path="/settings" component={Settings} />
       <Route path="/logout" component={LayoutSwitch} />
       <Redirect from="*" to="/" />
     </Switch>

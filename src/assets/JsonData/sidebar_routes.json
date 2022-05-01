@@ -33,10 +33,5 @@
     "display_name": "Personal recommendations",
     "route": "/personal-recommendations",
     "icon": "bx bx-user-pin"
-  },
-  {
-    "display_name": "Settings",
-    "route": "/settings",
-    "icon": "bx bx-cog"
   }
 ]

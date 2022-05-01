@@ -22,19 +22,6 @@
   width: 100%;
 }
 
-.sidebar__items > :last-child {
-  margin-top: auto;
-}
-
-.sidebar__items > :last-child > :first-child {
-  padding: 0;
-}
-
-.sidebar__items > :last-child > :first-child > :first-child {
-  border-radius: 0;
-  padding-left: 20px;
-}
-
 .sidebar__logo {
   height: 150px;
   width: 100%;
@@ -76,4 +63,12 @@
   border-radius: var(--border-radius);
   background-image: linear-gradient(to right, var(--main-color), var(--second-color));
   color: var(--txt-white);
+}
+
+.sidebar-dark {
+  color: var(--txt-color-dark);
+}
+
+.sidebar-light {
+  color: var(--txt-color-light);
 }

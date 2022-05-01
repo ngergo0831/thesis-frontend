@@ -11,6 +11,7 @@ import {
   isUserLoggedInState
 } from '../../store/atoms/userAtoms';
 import { Avatar } from '../Avatar/Avatar';
+import { ThemeMenu } from '../ThemeMenu/ThemeMenu';
 import './topnav.css';
 
 const Topnav = () => {
@@ -106,6 +107,9 @@ const Topnav = () => {
               Logout
             </MenuItem>
           </Menu>
+        </div>
+        <div className="topnav__right-item">
+          <ThemeMenu />
         </div>
       </div>
     </div>
