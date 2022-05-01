@@ -4,3 +4,8 @@ export enum Period {
   Monthly = 'Monthly',
   Yearly = 'Yearly'
 }
+
+export enum Gender {
+  Male = 'Male',
+  Female = 'Female'
+}

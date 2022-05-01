@@ -26,7 +26,11 @@ export const Sidebar = (props) => {
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
-        <img src={logo} alt="company logo" />
+        <img
+          src={logo}
+          alt="company logo"
+          style={{ filter: `invert(${mode === ThemeMode.Dark ? 1 : 0})` }}
+        />
       </div>
       <div
         className={`sidebar__items ${mode === ThemeMode.Dark ? 'sidebar-dark' : 'sidebar-light'}`}
