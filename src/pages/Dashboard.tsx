@@ -32,7 +32,7 @@ export const Dashboard = () => {
             title={'calorie (RI 2000 kcal)' as any}
             data={intakes.map((intake) => intake.calorie).slice(0, 7)}
             labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
-            dottedData={Array(intakes.length % 7).fill(2000)}
+            dottedData={Array(intakes.slice(0, 7).length % 7 || 7).fill(2000)}
           />
           <CalorieIntakeChart
             title="weight"

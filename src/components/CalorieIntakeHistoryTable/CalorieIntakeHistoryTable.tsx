@@ -19,6 +19,7 @@ import { BoxContainer } from '../../GlobalStyles';
 import { currentUserIdState } from '../../store/atoms/userAtoms';
 import { intakesState } from '../../store/atoms/intakeAtoms';
 import { Intake } from '../../types/types';
+import { dietsState } from '../../store/atoms/dietAtoms';
 
 interface CalorieIntakeHistoryTableProps {
   intakes: Intake[];
@@ -59,6 +60,7 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
 
   const userId = useRecoilValue(currentUserIdState);
   const setIntakes = useSetRecoilState(intakesState);
+  const setDiets = useSetRecoilState(dietsState);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -76,7 +78,10 @@ export const CalorieIntakeHistoryTable = ({ intakes }: CalorieIntakeHistoryTable
   useEffect(() => {
     if (selectedIntake) {
       const { id } = selectedIntake;
-      createDiet(userId, selectedIntake.id, Period.Daily).then(() => setSelectedIntake(null));
+      createDiet(userId, selectedIntake.id, Period.Daily).then((createdDiet) => {
+        setSelectedIntake(null);
+        setDiets((diets) => [...diets, createdDiet]);
+      });
       setIntakes((_intakes) =>
         _intakes.map((intake) => (intake.id === id ? { ...intake, diet: true } : intake))
       );

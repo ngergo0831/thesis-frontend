@@ -14,13 +14,12 @@ export const CalorieIntakeForm = () => {
   const [protein, setProtein] = useState(0);
 
   const userId = useRecoilValue(currentUserIdState);
-  const intakes = useRecoilValue(myIntakesState(userId));
   const setIntakes = useSetRecoilState(intakesState);
 
   const handleCreateIntake = (event) => {
     event.preventDefault();
     createIntake(userId, { calorie, fat, carbs, protein }).then((createdIntake) => {
-      setIntakes([createdIntake, ...intakes]);
+      setIntakes((intakes) => [createdIntake, ...intakes]);
     });
   };
   return (

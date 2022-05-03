@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { currentDietUserQuery } from '../../store/atoms/dietAtoms';
 import { Comment as _Comment } from '../../types/types';
@@ -12,6 +13,11 @@ export const Comment = ({ comment }: CommentProps) => {
   const user = useRecoilValue(currentDietUserQuery(comment.userId));
   const userName = user.firstName + ' ' + user.lastName;
 
+  const history = useHistory();
+  const location = useLocation();
+
+  const isInDiet = location.pathname.includes('/diet/');
+
   return (
     <div
       style={{
@@ -20,8 +26,10 @@ export const Comment = ({ comment }: CommentProps) => {
         width: '100%',
         justifyContent: 'flex-start',
         marginTop: '1rem',
-        marginBottom: '1rem'
+        marginBottom: '1rem',
+        cursor: 'pointer'
       }}
+      onClick={() => !isInDiet && history.push(`/diets/${comment.dietId}`)}
     >
       <Avatar userName={userName} />
       <div

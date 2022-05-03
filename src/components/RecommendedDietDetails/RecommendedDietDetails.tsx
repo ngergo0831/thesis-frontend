@@ -3,6 +3,12 @@ import { BoxContainer } from '../../GlobalStyles';
 import { Intake } from '../../types/types';
 import { Fastfood, EggAlt, Restaurant, BakeryDining } from '@mui/icons-material';
 import { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { intakesState } from '../../store/atoms/intakeAtoms';
+import { dietsState } from '../../store/atoms/dietAtoms';
+import { currentUserIdState } from '../../store/atoms/userAtoms';
+import { createDiet, createIntake } from '../../api/api';
+import { Period } from '../../enums/enums';
 
 interface RecommendedDietDetailsProps {
   intake: Partial<Intake>;
@@ -17,6 +23,22 @@ const flex = () => ({
 export const RecommendedDietDetails = ({ intake, title }: RecommendedDietDetailsProps) => {
   const { calorie, protein, fat, carbs } = intake;
   const [alreadyAdded, setAlreadyAdded] = useState(false);
+
+  const userId = useRecoilValue(currentUserIdState);
+  const setIntakes = useSetRecoilState(intakesState);
+  const setDiets = useSetRecoilState(dietsState);
+
+  const handleSave = async () => {
+    const createdIntake = await createIntake(userId, { calorie, fat, carbs, protein });
+    setIntakes((intakes) => [createdIntake, ...intakes]);
+    const createdDiet = await createDiet(userId, createdIntake.id, Period.Daily);
+    setIntakes((_intakes) =>
+      _intakes.map((int) => (int.id === createdIntake.id ? { ...int, diet: true } : int))
+    );
+    setDiets((diets) => [...diets, createdDiet]);
+    setAlreadyAdded(true);
+  };
+
   return (
     <BoxContainer>
       <h2 style={{ marginBottom: '1rem' }}>{title}</h2>
@@ -55,6 +77,7 @@ export const RecommendedDietDetails = ({ intake, title }: RecommendedDietDetails
         color="primary"
         style={{ marginTop: '1rem' }}
         disabled={alreadyAdded}
+        onClick={handleSave}
       >
         Add to my diets
       </Button>

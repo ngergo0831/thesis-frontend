@@ -51,8 +51,8 @@ export const PersonalRecommendations = () => {
   const [height, setHeight] = useState(0);
   const [gender, setGender] = useState<Gender>(Gender.Female);
 
-  const [pal1, setPal1] = useState(1.2);
-  const [pal2, setPal2] = useState(0);
+  const [pal1, setPal1] = useState(1.8);
+  const [pal2, setPal2] = useState(0.25);
 
   useEffect(() => {
     setPage('Personal Recommendations');
@@ -67,8 +67,6 @@ export const PersonalRecommendations = () => {
       const fatNeed = Math.round((avarageCalorieNeed * 0.25) / 7);
       const proteinNeed = Math.round(weight * 1.4);
       const carbsNeed = Math.round((avarageCalorieNeed - fatNeed * 7 - proteinNeed * 4) / 4);
-
-      console.log({ pal1, pal2, BMR, weight, height, age, female: gender === Gender.Female });
 
       setCalorie(avarageCalorieNeed);
       setFat(fatNeed);
@@ -88,8 +86,8 @@ export const PersonalRecommendations = () => {
   };
 
   const calculateDiet = (calorieMultiplier: number, proteinValue: number) => {
-    const _calorie = Math.round(calorie * calorieMultiplier);
-    const _protein = Math.round(weight * proteinValue);
+    const _calorie = Math.round((calorie || 0) * calorieMultiplier);
+    const _protein = Math.round((weight || 0) * proteinValue);
     const _fat = Math.round((_calorie * 0.25) / 7);
     const _carbs = Math.round((_calorie - _fat * 7 - _protein * 4) / 4);
 

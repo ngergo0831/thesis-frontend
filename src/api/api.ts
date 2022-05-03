@@ -71,7 +71,8 @@ export const getIntakes = async (): Promise<Intake[]> => {
 };
 
 export const createDiet = async (creatorId: string, intakeId: string, period: Period) => {
-  await api.post(`/intakes/${intakeId}/create-diet`, { creatorId, period });
+  const { data } = await api.post(`/intakes/${intakeId}/create-diet`, { creatorId, period });
+  return data;
 };
 
 export const createIntake = async (userId: string, intake: Partial<Intake>) => {
