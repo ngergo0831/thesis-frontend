@@ -15,6 +15,29 @@ export const CalorieIntake = () => {
 
   const setPage = useSetRecoilState(currentPageState);
 
+  const dateQuery = (days: number) => moment().clone().subtract(days, 'days').startOf('day');
+
+  const sortedIntakes = intakes.reduce((acc, x) => {
+    if (
+      acc.find(
+        (y) => moment(y.createdAt).format('YYYY/MM/D') === moment(x.createdAt).format('YYYY/MM/D')
+      )
+    )
+      return acc.concat([]);
+    const calories = intakes
+      .filter(
+        (y) => moment(y.createdAt).format('YYYY/MM/D') === moment(x.createdAt).format('YYYY/MM/D')
+      )
+      .map((y) => y.calorie)
+      .reduce((a, b) => a + b, 0);
+    return acc.concat([
+      {
+        createdAt: moment(x.createdAt).format('YYYY/MM/D'),
+        calories
+      }
+    ]);
+  }, []);
+
   useEffect(() => {
     setPage('Calorie Intake');
   }, []);
@@ -49,6 +72,37 @@ export const CalorieIntake = () => {
           title="protein"
           data={intakes.map((intake) => intake.protein).slice(0, 7)}
           labels={intakes.map((intake) => moment(intake.createdAt).format('M/D')).slice(0, 7)}
+        />
+      </div>
+      <div style={style('row')}>
+        <CalorieIntakeChart
+          title={'Calorie intakes since yesterday' as any}
+          data={intakes
+            .filter((intake) => moment(intake.createdAt).isAfter(dateQuery(1)))
+            .map((intake) => intake.calorie)
+            .slice(0, 10)}
+          labels={intakes
+            .filter((intake) => moment(intake.createdAt).isAfter(dateQuery(1)))
+            .map((intake) => moment(intake.createdAt).format('M/D'))
+            .slice(0, 10)}
+        />
+        <CalorieIntakeChart
+          title={'Calorie intakes in the last 7 days' as any}
+          data={sortedIntakes
+            .filter((intake) => moment(intake.createdAt).isAfter(dateQuery(7)))
+            .map((intake) => intake.calories)}
+          labels={sortedIntakes
+            .filter((intake) => moment(intake.createdAt).isAfter(dateQuery(7)))
+            .map((intake) => moment(intake.createdAt).format('M/D'))}
+        />
+        <CalorieIntakeChart
+          title={'Calorie intakes in the last 30 days' as any}
+          data={sortedIntakes
+            .filter((intake) => moment(intake.createdAt).isAfter(dateQuery(30)))
+            .map((intake) => intake.calories)}
+          labels={sortedIntakes
+            .filter((intake) => moment(intake.createdAt).isAfter(dateQuery(30)))
+            .map((intake) => moment(intake.createdAt).format('M/D'))}
         />
       </div>
     </div>

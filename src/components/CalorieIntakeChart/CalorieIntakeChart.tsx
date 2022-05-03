@@ -20,6 +20,8 @@ export const CalorieIntakeChart = ({
   const mode = _mode.split('-')[2];
   const color = _color.split('-')[2];
 
+  const avarageChart = title[0] === 'C';
+
   const lineData = {
     labels,
     datasets: [
@@ -102,7 +104,9 @@ export const CalorieIntakeChart = ({
   return (
     <BoxContainer fullwidth={false}>
       <div style={{ fontSize: '0.825rem', margin: '1rem 0' }}>
-        Last {data.length} {title} {title !== 'weight' ? 'intakes' : 'measurements (kg)'}
+        {avarageChart
+          ? title
+          : `Last ${data.length} ${title} ${title !== 'weight' ? 'intakes' : 'measurements (kg)'}`}
       </div>
       <div style={{ width: '100%', height: '14rem' }}>
         {lineData.labels.length > 1 ? (
