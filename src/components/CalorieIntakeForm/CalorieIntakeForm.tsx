@@ -130,7 +130,16 @@ export const CalorieIntakeForm = () => {
             padding: '0.5rem'
           }}
           onClick={handleCreateIntake}
-          disabled={calorie === 0 || fat === 0 || carbs === 0 || protein === 0}
+          disabled={
+            !calorie ||
+            !fat ||
+            !carbs ||
+            !protein ||
+            calorie === 0 ||
+            fat === 0 ||
+            carbs === 0 ||
+            protein === 0
+          }
         >
           Add
         </Button>
