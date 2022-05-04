@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { measurementsState } from '../store/atoms/weightAtoms';
 import { WeightTrackerContainer } from '../components/WeightTrackerContainer/WeightTrackerContainerAtoms';
-import { useDevice } from '../utils/useDevice';
+import { useDevice } from '../hooks/useDevice';
 import { currentPageState } from '../store/atoms/pageAtoms';
 import { currentUserIdState } from '../store/atoms/userAtoms';
 import { useEffect } from 'react';
